@@ -1,0 +1,29 @@
+[
+  {
+    "id": "kapasite-artisi",
+    "date": "2026-02-20",
+    "category": "Kapasite Artışı",
+    "title": "Natro Markamızla 2-5 Mikron Üretim Kapasitemizi %50 Artırdık",
+    "excerpt": "Artan talep üzerine Mamak tesisimizdeki yeni üretim hattımızı devreye aldık...",
+    "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?q=80",
+    "url": "haberler.html"
+  },
+  {
+    "id": "lojistik-filo",
+    "date": "2026-02-18",
+    "category": "Lojistik",
+    "title": "Araç Filomuza 2 Adet Yeni Çekici Tır Kattık",
+    "excerpt": "Operasyon gücümüzü artırmak için filomuza yeni araçlar ekledik.",
+    "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?q=80",
+    "url": "haberler.html"
+  },
+  {
+    "id": "mamak-proje",
+    "date": "2026-02-10",
+    "category": "Proje",
+    "title": "Mamak Asfalt Serim Projesi Tamamlandı",
+    "excerpt": "Saha teslimi ve kalite kontrolleri tamamlanarak proje başarıyla bitirildi.",
+    "image": "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80",
+    "url": "haberler.html"
+  }
+]
