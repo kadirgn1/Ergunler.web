@@ -13,19 +13,7 @@ window.NEWS_DATA = [
 
 Artan Talebe Yenilikçi Çözümler
 
-İnşaat, boya ve plastik sektörleri başta olmak üzere, mikronize kalsitin kritik bir dolgu malzemesi olarak kullanıldığı tüm alanlarda talebin her geçen gün ivme kazandığını gözlemliyoruz. Müşterilerimizin yüksek kalite beklentilerini zamanında ve kesintisiz karşılayabilmek adına, Ankara Mamak’ta bulunan mikronize kalsit üretim hattımızda kapsamlı bir modernizasyon ve kapasite artırımı kararı aldık. Gerçekleştirdiğimiz bu yeni ekipman yatırımı ile üretim kapasitemizi sadece niceliksel olarak artırmakla kalmıyor, aynı zamanda mikron hassasiyetindeki ürün kalitemizi en üst seviyeye taşıyoruz.
 
-Sürdürülebilirlik ve Verimlilik Odaklı Üretim
-
-Yatırım stratejimizin temel taşını "sürdürülebilir tedarik" hedefimiz oluşturuyor. Yeni nesil öğütme ve sınıflandırma sistemlerimiz, birim üretim başına düşen enerji tüketimini minimize edecek şekilde tasarlandı. Karbon ayak izimizi düşürme sorumluluğumuzun bilinciyle, çevre dostu teknolojilere öncelik vererek doğal kaynaklarımızı en verimli şekilde işlemeyi hedefliyoruz. Bu yatırım, sadece bugünün taleplerini karşılamak için değil, gelecek nesillere daha yaşanabilir bir dünya bırakma sözümüzün bir parçasıdır.
-
-Mamak’tan Türkiye’ye Uzanan Güçlü Tedarik Zinciri
-
-Mamak’taki tesisimiz, stratejik konumu ve lojistik avantajlarıyla operasyonlarımızın kalbi konumundadır. Yeni ekipman parkurumuzla birlikte, tedarik zincirindeki esnekliğimizi artırarak iş ortaklarımıza sunduğumuz teslimat sürelerini optimize ediyoruz. Kendi ocaklarımızdan elde ettiğimiz yüksek saflıktaki kalsiti, en ileri teknolojiyle işleyerek sektörün hizmetine sunmaya devam edeceğiz.
-
-Gelecek Vizyonu
-
-Natro Yapı Kimyasalları olarak, akademik birikimi saha tecrübesiyle harmanlayan yönetim anlayışımızla büyümeye devam ediyoruz. Mikronize kalsit üretimindeki bu yeni hamlemiz, sektördeki rekabetçi gücümüzü perçinlerken, "kalite, güven ve sürdürülebilirlik" ilkelerimize olan bağlılığımızı bir kez daha kanıtlamaktadır. İş ortaklarımızın bize duyduğu güvenle, modern tesislerimizde daha güçlü ve daha verimli bir üretim dönemine merhaba diyoruz.
       </p>
 
       <h5 class="fw-bold mt-4">Bu geliştirme ile</h5>
