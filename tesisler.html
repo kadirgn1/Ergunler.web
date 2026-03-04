@@ -16,32 +16,60 @@
   <!-- PRELOADER (istersen kaldırabilirsin; script.js zaten yönetiyor) -->
   
 
-  <nav class="navbar navbar-expand-lg sticky-top">
-    <div class="container">
-      <a class="navbar-brand d-flex align-items-center" href="index.html">
-  <img src="images/logo.jpg" alt="Ergünler İnşaat" class="brand-logo">
-</a>
+ <nav class="navbar navbar-expand-lg sticky-top">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="images/logo.jpg" alt="Ergünler İnşaat" class="brand-logo">
+    </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
-      </button>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link" href="index.html">ANA SAYFA</a></li>
-          <li class="nav-item"><a class="nav-link" href="kurumsal.html">KURUMSAL</a></li>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
 
-          <!-- AKTİF MENÜ (inline style yok) -->
-          <li class="nav-item"><a class="nav-link active" aria-current="page" href="tesisler.html">TESİSLER</a></li>
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">ANA SAYFA</a>
+        </li>
 
-          <li class="nav-item"><a class="nav-link" href="haberler.html">HABERLER</a></li>
-          <li class="nav-item"><a class="nav-link" href="iletisim.html">İLETİŞİM</a></li>
-          <li class="nav-item ms-lg-3"><a href="iletisim.html" class="btn-teklif btn-sm">TEKLİF AL</a></li>
-        </ul>
-      </div>
+        <li class="nav-item">
+          <a class="nav-link" href="kurumsal.html">KURUMSAL</a>
+        </li>
+
+        <li class="nav-item dropdown nav-hover">
+          <a class="nav-link dropdown-toggle" href="#" id="urunlerMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ÜRÜNLER
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="urunlerMenu">
+            <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
+            <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
+            <li><a class="dropdown-item" href="agrega.html">Agrega</a></li>
+            <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
+          </ul>
+        </li>
+
+        <!-- ✅ AKTİF: TESİSLER -->
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="tesisler.html">TESİSLER</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="haberler.html">HABERLER</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="iletisim.html">İLETİŞİM</a>
+        </li>
+
+        <li class="nav-item ms-lg-3">
+          <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+        </li>
+
+      </ul>
     </div>
-  </nav>
-
+  </div>
+</nav>
   <header class="page-header header-tesisler">
     <div class="container">
       <h1 class="mb-3">Üretim Tesislerimiz</h1>
