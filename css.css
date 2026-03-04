@@ -886,5 +886,5 @@ h1, h2{
 @media (max-width: 768px){
   .brand-icon{ height:38px; }
   .brand-name{ font-size:16px; }
-  .brand-sub{ display:none; }  /* mobilde alt yazıyı kapat */
+   /* mobilde alt yazıyı kapat */
 }
