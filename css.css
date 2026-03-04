@@ -1,6 +1,6 @@
 /* =========================================================
-   ERGÜNLER YOL YAPI & NATRO - MERKEZİ STİL DOSYASI (TEMİZ)
-   Tüm sayfaların ortak stil dosyası: Index, Kurumsal, Tesisler, Haberler, İletişim
+   ERGÜNLER YOL YAPI & NATRO - MERKEZİ STİL DOSYASI (FINAL)
+   Ortak stil: Index, Kurumsal, Tesisler, Haberler, İletişim
    ========================================================= */
 
 /* -------------------------------
@@ -23,7 +23,6 @@
 }
 
 *{ margin:0; padding:0; box-sizing:border-box; }
-
 html{ scroll-behavior:smooth; }
 
 body{
@@ -39,100 +38,57 @@ img{ max-width:100%; height:auto; display:block; }
 a{ color:inherit; text-decoration:none; }
 a:hover{ text-decoration:none; }
 
-/* Erişilebilir odak (klavye ile gezenler) */
 :focus-visible{
   outline: 3px solid rgba(243,156,18,0.55);
   outline-offset: 3px;
 }
 
-/* Hareket azaltma tercihine saygı */
 @media (prefers-reduced-motion: reduce){
-  *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  *{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.01ms !important;
+    scroll-behavior:auto !important;
+  }
 }
 
 /* -------------------------------
-   2) Navigasyon (Navbar)
+   2) Navbar
 -------------------------------- */
 .navbar{
-  background-color:var(--ana-lacivert); /* NOT: !important yok -> .is-scrolled çalışır */
+  background-color:var(--ana-lacivert);
   padding:15px 0;
   border-bottom:3px solid var(--sirket-turuncu);
-  min-height:85px;
+  min-height:92px;
   z-index:1000;
   transition: background-color var(--transition-med), box-shadow var(--transition-med);
 }
 
-/* JS ile eklenecek class */
-/* --- FIX: Navbar scroll class --- */
-/* ÖNEMLİ: css.css içinde .navbar { background-color: ... !important; } varsa !important'i kaldır */
 .navbar.is-scrolled{
   background-color: rgba(26, 37, 47, 0.98);
   box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
-.nav-link.active,
-.nav-link[aria-current="page"]{
-  color: var(--sirket-turuncu) !important;
+
+/* Logo (navbar) */
+.navbar .navbar-brand{
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+.navbar .navbar-brand img.brand-logo{
+  height: 70px !important;
+  width: auto !important;
+  display: block !important;
+  object-fit: contain !important;
+  filter: drop-shadow(0 6px 14px rgba(0,0,0,.35));
+}
+@media (max-width: 768px){
+  .navbar .navbar-brand img.brand-logo{ height: 52px !important; }
 }
 
-/* --- FIX: Hover pürüzü (scale kalksın) --- */
-.service-card:hover, .tesis-card:hover, .contact-card:hover {
-  transform: translateY(-10px); /* scale kalktı */
-}
-.page-header{
-  height: 30vh;
-  min-height: 260px;
-  display:flex;
-  align-items:center;
-  color:#fff;
-  text-align:center;
-  background-size: cover;
-  background-position: center;
-}
-
-
-.header-kurumsal{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/kurumsal.jpg");
-}
-
-.header-tesisler{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/tesisler.jpg");
-}
-
-.header-haberler{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/haberler.jpg");
-}
-
-.header-iletisim{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/iletisim.jpg");
-}
-
-/* --- FIX: Overlay köşe stabil --- */
-.news-overlay-card{
-  transform: translateZ(0);
-  overflow: hidden;
-}
-.news-overlay-bg,
-.news-overlay-gradient{
-  border-radius: inherit;
-}
-.news-overlay-bg{
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-.navbar-brand .logo-border{
-  border-left:4px solid var(--sirket-turuncu);
-  padding-left:15px;
-}
-
+/* Nav link */
 .nav-link{
   color:var(--beyaz) !important;
   font-weight:600;
@@ -141,25 +97,168 @@ a:hover{ text-decoration:none; }
   letter-spacing:1px;
   transition: color var(--transition-fast);
 }
-
 .nav-link:hover{ color:var(--sirket-turuncu) !important; }
 
-/* Aktif menü (HTML'de: class="nav-link active" aria-current="page") */
 .nav-link.active,
 .nav-link[aria-current="page"]{
   color:var(--sirket-turuncu) !important;
 }
 
-/* Bootstrap toggler (mobil) ufak iyileştirme */
-.navbar-toggler{
-  border:1px solid rgba(255,255,255,0.25) !important;
+/* Mobil toggler */
+.navbar-toggler{ border:1px solid rgba(255,255,255,0.25) !important; }
+.navbar-toggler:focus{ box-shadow:none !important; }
+
+/* -------------------------------
+   2.1) ÜRÜNLER Dropdown (Yeni ve Estetik)
+-------------------------------- */
+.navbar .navbar-nav .nav-link{
+  display:inline-flex !important;
+  align-items:center !important;
+  height:42px;
+  line-height:42px !important;
+  padding-top:0 !important;
+  padding-bottom:0 !important;
 }
-.navbar-toggler:focus{
-  box-shadow:none !important;
+
+/* Ok hizası ve animasyonu */
+.navbar .navbar-nav .dropdown-toggle{
+  position: relative;
+  padding-right: 20px !important;
+}
+.navbar .navbar-nav .dropdown-toggle::after{
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 0 !important;
+  opacity: .85;
+  transition: transform var(--transition-fast);
+}
+
+/* Dropdown kutu ana estetiği */
+.navbar .dropdown-menu{
+  padding: 12px;
+  border-radius: 16px;
+  min-width: 240px;
+  background: rgba(26, 37, 47, 0.98);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  margin: 0;
+}
+
+/* Dropdown içindeki linklerin estetiği */
+.navbar .dropdown-item{
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255,255,255,0.85);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Hover durumunda soldan çıkan turuncu çizgi */
+.navbar .dropdown-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 4px;
+  background-color: var(--sirket-turuncu);
+  transform: scaleY(0);
+  transition: transform var(--transition-fast);
+  border-radius: 4px;
+}
+
+/* Hover efektleri */
+.navbar .dropdown-item:hover,
+.navbar .dropdown-item:focus{
+  background: rgba(243,156,18,0.1);
+  color: #fff;
+  padding-left: 22px; /* Yazıyı hafif sağa kaydırır */
+}
+
+.navbar .dropdown-item:hover::before {
+  transform: scaleY(0.7);
+}
+
+.navbar .dropdown-menu li + li{ margin-top:4px; }
+
+/* Masaüstü hover ayarları */
+@media (min-width: 992px){
+  /* ✅ padding-bottom kaldır: hizayı bozan bu */
+  .nav-hover{
+    position: relative;
+    padding-bottom: 0;
+  }
+
+  /* ✅ Hover "köprüsü": linkten menüye inerken kapanmasın */
+  .nav-hover::after{
+    content:"";
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 12px;          /* 10-14 arası oynayabilirsin */
+    background: transparent;
+  }
+
+  /* ✅ dropdown’a boşluğu menüye ver */
+  .nav-hover > .dropdown-menu{
+    display: block;
+    top: calc(100% + 10px); /* boşluk */
+    left: 0;                /* menü, ÜRÜNLER’in altından başlasın */
+    right: auto;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity 250ms ease, transform 250ms ease, visibility 250ms ease;
+  }
+
+  .nav-hover:hover > .dropdown-menu,
+  .nav-hover:focus-within > .dropdown-menu{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nav-hover:hover .dropdown-toggle::after{
+    transform: translateY(-50%) rotate(180deg);
+  }
+}
+
+/* Mobil tıkla açılma ayarları (Bootstrap uyumlu) */
+@media (max-width: 991px){
+  .navbar .dropdown-menu{
+    position: static !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    box-shadow: none;
+    border-radius: 12px;
+    margin-top: 10px !important;
+    background: rgba(255, 255, 255, 0.05);
+    border: none;
+  }
+  .navbar .dropdown-item{ 
+    padding: 12px 16px; 
+  }
+  .navbar .dropdown-item:hover {
+    padding-left: 16px; /* Mobilde kayma efektini iptal ediyoruz ki temiz dursun */
+  }
 }
 
 /* -------------------------------
-   3) Header / Hero Alanları
+   3) Header / Hero
 -------------------------------- */
 h1, h2{
   font-family:'Playfair Display', serif;
@@ -172,12 +271,13 @@ h1, h2{
   background:
     linear-gradient(rgba(26, 37, 47, 0.75), rgba(26, 37, 47, 0.75)),
     url("images/anasayfa.jpg") no-repeat center/cover;
-  display: flex;
-  align-items: center;
-  color: #fff;
-  text-align: center;
+  display:flex;
+  align-items:center;
+  color:#fff;
+  text-align:center;
 }
 
+/* ortak page header */
 .page-header{
   height: 30vh;
   min-height: 260px;
@@ -187,7 +287,28 @@ h1, h2{
   text-align:center;
   background-size: cover;
   background-position: center;
-  clip-path: none;
+}
+
+/* sayfa header görselleri */
+.header-kurumsal{
+  background-image:
+    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
+    url("images/kurumsal.jpg");
+}
+.header-tesisler{
+  background-image:
+    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
+    url("images/tesisler.jpg");
+}
+.header-haberler{
+  background-image:
+    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
+    url("images/haberler.jpg");
+}
+.header-iletisim{
+  background-image:
+    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
+    url("images/iletisim.jpg");
 }
 
 /* -------------------------------
@@ -214,11 +335,10 @@ h1, h2{
   transition: transform 420ms cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow var(--transition-med);
   height:100%;
 }
-
 .service-card:hover,
 .tesis-card:hover,
 .contact-card:hover{
-  transform:translateY(-10px) scale(1.02);
+  transform:translateY(-10px);
   box-shadow:0 15px 40px rgba(0,0,0,0.1);
 }
 
@@ -230,12 +350,10 @@ h1, h2{
   overflow:hidden;
   box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
-
 .custom-table thead{
   background-color:var(--ana-lacivert);
   color:var(--beyaz);
 }
-
 .vision-box{
   border-left:5px solid var(--sirket-turuncu);
   padding-left:20px;
@@ -243,14 +361,13 @@ h1, h2{
 }
 
 /* -------------------------------
-   6) İstatistikler (Floating Stats)
+   6) İstatistikler
 -------------------------------- */
 .stats-container{
   margin-top:-60px;
   position:relative;
   z-index:20;
 }
-
 .stats-card{
   background:var(--beyaz);
   border-radius:var(--radius-xl);
@@ -258,14 +375,12 @@ h1, h2{
   box-shadow:0 20px 40px rgba(0,0,0,0.15);
   border-bottom:5px solid var(--sirket-turuncu);
 }
-
 .stat-val{
   font-size:2.2rem;
   font-weight:800;
   color:var(--ana-lacivert);
   display:block;
 }
-
 .stat-label{
   font-size:0.75rem;
   font-weight:700;
@@ -287,7 +402,6 @@ h1, h2{
   transition: transform var(--transition-fast), background-color var(--transition-fast);
   display:inline-block;
 }
-
 .btn-teklif:hover{
   background:var(--koyu-turuncu);
   transform:scale(1.05);
@@ -309,19 +423,13 @@ h1, h2{
   margin-bottom:15px;
   border-radius:12px;
 }
-
 .form-control::placeholder{ color: rgba(255,255,255,0.6); }
-
 .form-control:focus{
   background:rgba(255,255,255,0.12) !important;
   border-color:var(--sirket-turuncu) !important;
   box-shadow:none !important;
 }
-
-/* JS ile eklediğimiz invalid state */
-.is-invalid{
-  border-color: var(--sirket-turuncu) !important;
-}
+.is-invalid{ border-color: var(--sirket-turuncu) !important; }
 
 /* -------------------------------
    8) Footer
@@ -332,16 +440,26 @@ h1, h2{
   padding:60px 0 20px;
   border-top:5px solid var(--sirket-turuncu);
 }
-
 .footer-link{
   color:rgba(255,255,255,0.7);
   text-decoration:none;
   transition: color var(--transition-fast), padding-left var(--transition-fast);
 }
-
 .footer-link:hover{
   color:var(--beyaz);
   padding-left:5px;
+}
+
+/* Footer logo */
+.footer-logo{
+  height: 52px;
+  width: auto;
+  display: inline-block;
+  object-fit: contain;
+  opacity: .95;
+}
+@media (max-width: 768px){
+  .footer-logo{ height: 36px; }
 }
 
 /* Güven şeridi */
@@ -350,7 +468,6 @@ h1, h2{
   padding:20px 0;
   border-top:1px solid rgba(255,255,255,0.05);
 }
-
 .trust-item{
   color:rgba(255,255,255,0.6);
   font-size:0.85rem;
@@ -360,7 +477,6 @@ h1, h2{
   justify-content:center;
   gap:10px;
 }
-
 .trust-item i{
   font-size:1.5rem;
   color:var(--sirket-turuncu);
@@ -385,13 +501,11 @@ h1, h2{
   height:100%;
   cursor:pointer;
 }
-
 .cert-card:hover{
   transform:translateY(-5px);
   box-shadow:var(--yumusak-golge);
   border-color:var(--sirket-turuncu);
 }
-
 .cert-icon{
   font-size:2.5rem;
   color:var(--ana-lacivert);
@@ -399,11 +513,10 @@ h1, h2{
   display:inline-block;
   transition: color var(--transition-fast);
 }
-
 .cert-card:hover .cert-icon{ color:var(--sirket-turuncu); }
 
 /* -------------------------------
-   11) Preloader (Yükleme Ekranı)
+   11) Preloader
 -------------------------------- */
 #preloader{
   position:fixed;
@@ -418,7 +531,6 @@ h1, h2{
   justify-content:center;
   transition: opacity 0.6s ease-in-out, visibility 0.6s ease-in-out;
 }
-
 .loader-spinner{
   width:50px;
   height:50px;
@@ -428,7 +540,6 @@ h1, h2{
   animation:spin 1s linear infinite;
   margin-bottom:20px;
 }
-
 .loader-text{
   color:var(--beyaz);
   font-weight:700;
@@ -436,19 +547,11 @@ h1, h2{
   font-size:0.85rem;
   animation:pulse 1.5s ease-in-out infinite;
 }
-
-@keyframes spin{
-  0%{ transform:rotate(0deg); }
-  100%{ transform:rotate(360deg); }
-}
-
-@keyframes pulse{
-  0%,100%{ opacity:1; }
-  50%{ opacity:0.4; }
-}
+@keyframes spin{ 0%{ transform:rotate(0deg); } 100%{ transform:rotate(360deg); } }
+@keyframes pulse{ 0%,100%{ opacity:1; } 50%{ opacity:0.4; } }
 
 /* -------------------------------
-   12) Haberler ve Duyurular
+   12) Haberler
 -------------------------------- */
 .news-card{
   background:var(--beyaz);
@@ -461,27 +564,24 @@ h1, h2{
   flex-direction:column;
   border:1px solid rgba(0,0,0,0.03);
 }
-
 .news-card:hover{
   transform:translateY(-10px);
   box-shadow:0 20px 40px rgba(0,0,0,0.1);
 }
-
 .news-img{
   height:220px;
   background-color:#e9ecef;
-  background-size:cover;
-  background-position:center;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
   position:relative;
 }
-
 .news-body{
   padding:30px;
   flex-grow:1;
   display:flex;
   flex-direction:column;
 }
-
 .news-date{
   font-size:0.8rem;
   color:var(--sirket-turuncu);
@@ -490,7 +590,6 @@ h1, h2{
   text-transform:uppercase;
   letter-spacing:1px;
 }
-
 .news-title{
   font-family:'Playfair Display', serif;
   font-weight:700;
@@ -499,13 +598,11 @@ h1, h2{
   color:var(--ana-lacivert);
   line-height:1.4;
 }
-
 .news-desc{
   color:var(--gri-yazi);
   font-size:0.95rem;
   margin-bottom:20px;
 }
-
 .news-btn{
   margin-top:auto;
   color:var(--ana-lacivert);
@@ -516,14 +613,11 @@ h1, h2{
   gap:8px;
   transition: color var(--transition-fast);
 }
-
 .news-btn i{ transition: transform var(--transition-fast); }
 .news-btn:hover{ color:var(--sirket-turuncu); }
 .news-btn:hover i{ transform:translateX(5px); }
 
-/* -------------------------------
-   13) Ana Sayfa Premium Haber Kartları (Overlay)
--------------------------------- */
+/* Overlay haber kartı */
 .news-overlay-card{
   position:relative;
   height:400px;
@@ -531,8 +625,8 @@ h1, h2{
   overflow:hidden;
   display:block;
   box-shadow:var(--yumusak-golge);
+  transform: translateZ(0);
 }
-
 .news-overlay-bg{
   position:absolute;
   top:0; left:0;
@@ -540,16 +634,17 @@ h1, h2{
   background-size:cover;
   background-position:center;
   transition: transform 0.6s ease;
+  will-change: transform;
+  backface-visibility: hidden;
 }
-
 .news-overlay-gradient{
   position:absolute;
   top:0; left:0;
   width:100%; height:100%;
   background:linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(10, 20, 30, 0.9) 100%);
   z-index:1;
+  border-radius: inherit;
 }
-
 .news-overlay-content{
   position:absolute;
   bottom:0; left:0;
@@ -557,7 +652,6 @@ h1, h2{
   z-index:2;
   width:100%;
 }
-
 .news-overlay-date{
   display:inline-block;
   background:var(--sirket-turuncu);
@@ -570,7 +664,6 @@ h1, h2{
   margin-bottom:15px;
   text-transform:uppercase;
 }
-
 .news-overlay-title{
   font-family:'Playfair Display', serif;
   font-size:1.4rem;
@@ -579,13 +672,24 @@ h1, h2{
   color:var(--beyaz);
   margin-bottom:10px;
 }
-
 .news-overlay-card:hover .news-overlay-bg{ transform:scale(1.1); }
 
+/* Haber detay kapak */
+.news-detail-cover{
+  height: 420px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: var(--yumusak-golge);
+}
+@media (max-width: 768px){
+  .news-detail-cover{ height: 260px; }
+}
+
 /* -------------------------------
-   14) Eksik olan sınıflar (Tesisler / İletişim)
+   13) Ek sınıflar
 -------------------------------- */
-/* Tesisler sayfasındaki teknik rozetler */
 .spec-badge{
   display:inline-block;
   padding:6px 12px;
@@ -597,8 +701,6 @@ h1, h2{
   font-size:0.8rem;
   margin:6px 8px 0 0;
 }
-
-/* İletişim harita çerçevesi */
 .map-frame{
   border-radius:var(--radius-xl);
   overflow:hidden;
@@ -607,63 +709,142 @@ h1, h2{
 }
 
 /* -------------------------------
-   15) Responsive dokunuşlar
+   14) Responsive
 -------------------------------- */
 @media (max-width: 991px){
   .hero-section{ min-height:420px; }
-  .page-header{ min-height:260px; clip-path:none; }
+  .page-header{ min-height:260px; }
 
   .content-card{ padding:28px; }
   .service-card, .tesis-card, .contact-card{ padding:24px; }
 
-  .nav-link{ padding:10px 0; } /* mobil menüde daha rahat tıklama */
+  .nav-link{ padding:10px 0; }
 }
-
 @media (max-width: 576px){
   .news-overlay-card{ height:320px; }
   .stats-container{ margin-top:-40px; }
   .stats-card{ padding:26px; }
 }
-.header-kurumsal{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/kurumsal.jpg");
+
+/* ================================
+   15) Ürünler Grid (Estetik & Mobil Uyumlu)
+================================ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 12'li sistem yerine daha temiz 2'li yapı */
+  gap: 25px; /* Kartlar arası boşluğu biraz artırdık */
+  margin-bottom: 40px;
 }
 
-.header-tesisler{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/tesisler.jpg");
-}
-
-.header-haberler{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/haberler.jpg");
-}
-
-.header-iletisim{
-  background-image:
-    linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-    url("images/iletisim.jpg");
-}
-/* Haber listesi kart görseli */
-.news-img{
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-}
-
-/* Haber detay sayfası kapak görseli (script.js'te verdiğimiz div.news-img için) */
-.news-detail-cover{
-  height: 420px;
-  border-radius: 20px;
+.product-card {
+  background: var(--beyaz);
+  border-radius: var(--radius-xl);
   overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.12);
+  border-color: rgba(243, 156, 18, 0.3);
+}
+
+.product-thumb {
+  height: 220px;
+  background-color: #f0f0f0;
   background-size: cover;
   background-position: center;
-  box-shadow: var(--yumusak-golge);
+  overflow: hidden;
+  position: relative;
 }
 
-@media (max-width: 768px){
-  .news-detail-cover{ height: 260px; }
+/* Görsel üzerine hafif bir karartma efekti */
+.product-thumb::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+}
+
+.product-body {
+  padding: 25px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-title {
+  font-family: 'Playfair Display', serif; /* Başlıklar için Playfair kullanımı */
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--ana-lacivert);
+  margin-bottom: 10px;
+  transition: color 0.2s ease;
+}
+
+.product-card:hover .product-title {
+  color: var(--sirket-turuncu);
+}
+
+.product-desc {
+  color: var(--gri-yazi);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.product-cta {
+  font-weight: 700;
+  color: var(--sirket-turuncu);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-cta::after {
+  content: "\F135"; /* Bootstrap Icons: Arrow-right */
+  font-family: "bootstrap-icons";
+  transition: transform 0.2s ease;
+}
+
+.product-card:hover .product-cta::after {
+  transform: translateX(5px);
+}
+
+/* --- Responsive Ayarlar --- */
+
+/* Tablet (991px ve altı) */
+@media (max-width: 991px) {
+  .products-grid {
+    gap: 20px;
+  }
+  .product-thumb {
+    height: 200px;
+  }
+  .product-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Mobil (767px ve altı) */
+@media (max-width: 767px) {
+  .products-grid {
+    grid-template-columns: 1fr; /* Mobilde kartlar alt alta gelsin */
+  }
+  .product-card {
+    max-width: 450px;
+    margin: 0 auto; /* Kartı ortala */
+  }
+  .product-body {
+    padding: 20px;
+  }
 }

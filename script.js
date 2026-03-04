@@ -191,16 +191,18 @@
     // Mobil menü kapat
     const menuToggle = document.getElementById('navbarNav');
     const navLinks = qsa('.navbar .nav-link');
-    if (menuToggle && navLinks.length) {
-      navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-          if (menuToggle.classList.contains('show') && window.bootstrap?.Collapse) {
-            const inst = bootstrap.Collapse.getOrCreateInstance(menuToggle, { toggle: false });
-            inst.hide();
-          }
-        });
-      });
+
+navLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    // ✅ Ürünler dropdown’a tıklayınca menüyü kapatma
+    if (link.classList.contains('dropdown-toggle')) return;
+
+    if (menuToggle.classList.contains('show') && window.bootstrap?.Collapse) {
+      const inst = bootstrap.Collapse.getOrCreateInstance(menuToggle, { toggle: false });
+      inst.hide();
     }
+  });
+});
 
     // Haberleri bas (index + haberler + detay)
     const news = loadNewsDataSync();
