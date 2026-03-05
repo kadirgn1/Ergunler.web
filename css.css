@@ -886,5 +886,16 @@ h1, h2{
 @media (max-width: 768px){
   .brand-icon{ height:38px; }
   .brand-name{ font-size:16px; }
-   /* mobilde alt yazıyı kapat */
+
+  .brand-text{ max-width: 170px; } /* istersen 150-220 arası oynat */
+
+  .brand-sub{
+    display:block;
+    font-size:10px;
+    margin-top:2px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
