@@ -3,222 +3,505 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>İletişim | Ergünler Yol Yapı Ltd. Şti. | Erzurum</title>
+  <title>İletişim | Ergünler Yol Yapı Ltd. Şti.</title>
+  <meta
+    name="description"
+    content="Ergünler Yol Yapı ile iletişime geçin. Teklif alın, lokasyon bilgilerine ulaşın, WhatsApp, telefon ve e-posta üzerinden hızlıca bize yazın."
+  />
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <link rel="stylesheet" href="css.css" />
 </head>
 
 <body>
-
-  <!-- PRELOADER (istersen kaldırabilirsin; script.js yönetiyor) -->
-  
-
-<nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
-    <a class="navbar-brand brand" href="index.html">
-  <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon">
-  <span class="brand-text">
-    <span class="brand-name">ERGÜNLER</span>
-    <span class="brand-sub">inşaat • asfalt • yol • yapı</span>
-  </span>
-</a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">ANA SAYFA</a>
-        </li>
-
-         <li class="nav-item dropdown nav-hover">
-      <a class="nav-link dropdown-toggle" href="#" id="kurumsalMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        KURUMSAL
+  <nav class="navbar navbar-expand-lg sticky-top">
+    <div class="container">
+      <a class="navbar-brand brand" href="index.html">
+        <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon" />
+        <span class="brand-text">
+          <span class="brand-name">ERGÜNLER</span>
+          <span class="brand-sub">inşaat • asfalt • yol • yapı</span>
+        </span>
       </a>
-      <ul class="dropdown-menu" aria-labelledby="kurumsalMenu">
-        <li><a class="dropdown-item" href="kurumsal.html">Hakkımızda</a></li>
-        <li><a class="dropdown-item" href="makine-parkuru.html">Araç & Makine Parkuru</a></li>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-label="Menü"
+      >
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">ANA SAYFA</a>
+          </li>
+
+          <li class="nav-item dropdown nav-hover">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="kurumsalMenu"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              KURUMSAL
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="kurumsalMenu">
+              <li><a class="dropdown-item" href="kurumsal.html">Hakkımızda</a></li>
+              <li><a class="dropdown-item" href="makine-parkuru.html">Araç &amp; Makine Parkuru</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown nav-hover">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="urunlerMenu"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              ÜRÜNLER
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="urunlerMenu">
+              <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
+              <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
+              <li><a class="dropdown-item" href="agrega.html">Agrega</a></li>
+              <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="tesisler.html">TESİSLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="haberler.html">HABERLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="iletisim.html">İLETİŞİM</a>
+          </li>
+
+          <li class="nav-item ms-lg-3">
+            <a href="#teklifFormu" class="btn-teklif">TEKLİF AL</a>
+          </li>
         </ul>
-    </li>
-
-        <li class="nav-item dropdown nav-hover">
-          <a class="nav-link dropdown-toggle" href="#" id="urunlerMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ÜRÜNLER
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="urunlerMenu">
-            <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
-            <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
-            <li><a class="dropdown-item" href="agrega.html">Agrega</a></li>
-            <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="tesisler.html">TESİSLER</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="haberler.html">HABERLER</a>
-        </li>
-
-        <!-- ✅ AKTİF: İLETİŞİM -->
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="iletisim.html">İLETİŞİM</a>
-        </li>
-
-        <li class="nav-item ms-lg-3">
-          <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
-        </li>
-      </ul>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
   <header class="page-header header-iletisim">
-    <div class="container">
-      <h1 class="mb-3">Bize Ulaşın</h1>
-      <p class="lead opacity-75 fs-4">Aziziye / Erzurum Operasyon Merkezi ve İletişim Kanalları</p>
+    <div class="container text-center">
+      <h1 class="mb-3">İletişim</h1>
+      <p class="lead opacity-75 fs-4 mb-0">
+        Teklif, ürün bilgisi, sevkiyat planı ve saha çözümleri için bizimle hemen iletişime geçin
+      </p>
     </div>
   </header>
 
+  <div class="container stats-container">
+    <div class="stats-card text-center">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <span class="stat-val">7/24</span>
+          <span class="stat-label">Hızlı Geri Dönüş</span>
+        </div>
+        <div class="col-md-4 border-md-start border-md-end">
+          <span class="stat-val">1</span>
+          <span class="stat-label">Merkez Lokasyon</span>
+        </div>
+        <div class="col-md-4">
+          <span class="stat-val">3</span>
+          <span class="stat-label">İletişim Kanalı</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container py-5">
-
-    <!-- ÜST İLETİŞİM KARTLARI -->
-    <section class="row g-4 mb-5">
-      <div class="col-md-4">
-        <div class="contact-card text-center">
-          <i class="bi bi-geo-alt fs-1 text-warning mb-3"></i>
-          <h5 class="fw-bold">Lokasyon</h5>
-          <p class="text-muted small mb-2">Aziziye/Erzurum</p>
-          <a class="footer-link small" href="https://www.google.com/maps/place/NATRO+YAPI+K%C4%B0MYASALLARI/@39.9769766,41.0225949,17z/data=!3m1!4b1!4m6!3m5!1s0x406e5500719d2d8f:0x330af46889935bbb!8m2!3d39.9769726!4d41.0274658!16s%2Fg%2F11wp04_4nd?entry=ttu&g_ep=EgoyMDI2MDMwMS4xIKXMDSoASAFQAw%3D%3D" target="_blank" rel="noopener">
-            Haritada Aç <i class="bi bi-box-arrow-up-right"></i>
-          </a>
+    <section class="content-card mt-0 mb-5">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="contact-card text-center h-100">
+            <i class="bi bi-geo-alt fs-1 text-warning mb-3"></i>
+            <h5 class="fw-bold">Lokasyon</h5>
+            <p class="text-muted small mb-2">Aziziye / Erzurum</p>
+            <a
+              class="footer-link small"
+              href="https://www.google.com/maps/place/NATRO+YAPI+K%C4%B0MYASALLARI/@39.9769766,41.0225949,17z/data=!3m1!4b1!4m6!3m5!1s0x406e5500719d2d8f:0x330af46889935bbb!8m2!3d39.9769726!4d41.0274658!16s%2Fg%2F11wp04_4nd?entry=ttu&g_ep=EgoyMDI2MDMwMS4xIKXMDSoASAFQAw%3D%3D"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Haritada Aç <i class="bi bi-box-arrow-up-right"></i>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="contact-card text-center">
-          <i class="bi bi-telephone fs-1 text-warning mb-3"></i>
-          <h5 class="fw-bold">Telefon</h5>
-          <p class="text-muted small mb-2">WhatsApp’tan Yaz<br>+90 549 250 3368</p>
-            <a class="footer-link" href="tel:+905492503368">+90 549 250 3368</a>
-          </p>
-          <a class="footer-link small" href="https://wa.me/905492503368" target="_blank" rel="noopener">
-            WhatsApp’tan Yaz <i class="bi bi-whatsapp"></i>
-          </a>
+        <div class="col-lg-4">
+          <div class="contact-card text-center h-100">
+            <i class="bi bi-telephone fs-1 text-warning mb-3"></i>
+            <h5 class="fw-bold">Telefon &amp; WhatsApp</h5>
+            <p class="text-muted small mb-2">Bize hemen ulaşın, hızlı dönüş sağlayalım.</p>
+            <a class="footer-link d-inline-block mb-2" href="tel:+905492503368">
+              +90 549 250 3368
+            </a>
+            <br />
+            <a
+              class="footer-link small"
+              href="https://wa.me/905492503368"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              WhatsApp’tan Yaz <i class="bi bi-whatsapp"></i>
+            </a>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="contact-card text-center">
-          <i class="bi bi-envelope fs-1 text-warning mb-3"></i>
-          <h5 class="fw-bold">E-Posta</h5>
-          <p class="text-muted small mb-0">info@ergunleryolyapi.com</p>
-            <a class="footer-link" href="mailto:info@ergunleryolyapi.com">info@ergunleryolyapi.com</a>
-          </p>
+        <div class="col-lg-4">
+          <div class="contact-card text-center h-100">
+            <i class="bi bi-envelope fs-1 text-warning mb-3"></i>
+            <h5 class="fw-bold">E-Posta</h5>
+            <p class="text-muted small mb-2">Teklif ve bilgi taleplerinizi mail ile iletin.</p>
+            <a class="footer-link" href="mailto:info@ergunleryolyapi.com">
+              info@ergunleryolyapi.com
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- HARİTA + FORM -->
-    <section class="row g-5">
+    <section class="row g-5 align-items-stretch">
       <div class="col-lg-7">
-        <div class="map-frame h-100" style="min-height: 450px;">
-          <iframe
-            title="Ergünler Yol Yapı - Harita"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3057.4084523176566!2d41.022594891579516!3d39.97697660884635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406e5500719d2d8f%3A0x330af46889935bbb!2sNATRO%20YAPI%20K%C4%B0MYASALLARI!5e0!3m2!1str!2str!4v1772578476143!5m2!1str!2str"
-            width="100%"
-            height="100%"
-            style="border:0;"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="content-card h-100 mt-0">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-end gap-3 mb-4">
+            <div>
+              <h2 class="fw-bold mb-1" style="color: var(--ana-lacivert);">Bizi Haritada Görün</h2>
+              <p class="text-muted mb-0">
+                Lokasyonumuz üzerinden tesis, ofis ve teslim süreçleri için bize kolayca ulaşabilirsiniz.
+              </p>
+            </div>
+            <a
+              href="https://www.google.com/maps/place/NATRO+YAPI+K%C4%B0MYASALLARI/@39.9769766,41.0225949,17z/data=!3m1!4b1!4m6!3m5!1s0x406e5500719d2d8f:0x330af46889935bbb!8m2!3d39.9769726!4d41.0274658!16s%2Fg%2F11wp04_4nd?entry=ttu&g_ep=EgoyMDI2MDMwMS4xIKXMDSoASAFQAw%3D%3D"
+              class="btn btn-outline-dark rounded-pill fw-bold px-4"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Haritada Aç
+            </a>
+          </div>
+
+          <div class="map-frame" style="min-height: 460px;">
+            <iframe
+              title="Ergünler Yol Yapı - Harita"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3057.4084523176566!2d41.022594891579516!3d39.97697660884635!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x406e5500719d2d8f%3A0x330af46889935bbb!2sNATRO%20YAPI%20K%C4%B0MYASALLARI!5e0!3m2!1str!2str!4v1772578476143!5m2!1str!2str"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
         </div>
       </div>
 
-      <div class="col-lg-5">
+      <div class="col-lg-5" id="teklifFormu">
         <div class="contact-form-box h-100">
-          <h3 class="fw-bold mb-4">Hızlı Teklif Formu</h3>
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <i class="bi bi-send-check fs-4 text-warning"></i>
+            <h3 class="fw-bold mb-0">Hızlı Teklif Formu</h3>
+          </div>
 
-          <!-- JS burayı mesaj göstermek için kullanacak -->
+          <p class="opacity-75 mb-4">
+            Ürün, metraj, lokasyon veya ihtiyaç duyduğunuz hizmeti yazın; size en kısa sürede dönüş sağlayalım.
+          </p>
+
           <div id="formAlert" class="alert d-none" role="alert"></div>
 
           <form id="mainContactForm" novalidate>
             <div class="mb-3">
               <label class="small fw-bold mb-2 opacity-75" for="fullName">Adınız Soyadınız</label>
-              <input id="fullName" name="fullName" type="text" class="form-control" placeholder="Örn: Kadir Ergün" required>
+              <input
+                id="fullName"
+                name="fullName"
+                type="text"
+                class="form-control"
+                placeholder="Örn: Kadir Ergün"
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="small fw-bold mb-2 opacity-75" for="phone">Telefon Numaranız</label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                class="form-control"
+                placeholder="05xx xxx xx xx"
+                autocomplete="tel"
+                required
+              />
             </div>
 
             <div class="mb-3">
               <label class="small fw-bold mb-2 opacity-75" for="email">E-Posta Adresiniz</label>
-              <input id="email" name="email" type="email" class="form-control" placeholder="ornek@mail.com" required>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                class="form-control"
+                placeholder="ornek@mail.com"
+                autocomplete="email"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="small fw-bold mb-2 opacity-75" for="serviceType">İlgilendiğiniz Alan</label>
+              <select id="serviceType" name="serviceType" class="form-control" required>
+                <option value="">Seçiniz</option>
+                <option value="asfalt">Asfalt</option>
+                <option value="agrega">Agrega</option>
+                <option value="gri-kalsit">Gri Kalsit</option>
+                <option value="beyaz-kalsit">Beyaz Kalsit</option>
+                <option value="yol-yapim">Yol Yapım / Uygulama</option>
+                <option value="diger">Diğer</option>
+              </select>
             </div>
 
             <div class="mb-3">
               <label class="small fw-bold mb-2 opacity-75" for="message">Mesajınız</label>
-              <textarea id="message" name="message" class="form-control" rows="5"
-                placeholder="İhtiyaç duyduğunuz hizmet hakkında detay verin..." required></textarea>
+              <textarea
+                id="message"
+                name="message"
+                class="form-control"
+                rows="5"
+                placeholder="İhtiyaç duyduğunuz ürün, hizmet, metraj veya proje detayını yazın."
+                autocomplete="off"
+                required
+              ></textarea>
             </div>
 
-            <button type="submit" class="btn btn-warning w-100 fw-bold py-3 mt-2">MESAJI GÖNDER</button>
+            <button type="submit" class="btn btn-warning w-100 fw-bold py-3 mt-2">
+              MESAJI GÖNDER
+            </button>
 
             <p class="small opacity-75 mt-3 mb-0">
-              
+              Form gönderim altyapısını istersen sonraki adımda WhatsApp veya e-posta yönlendirmeli çalışır hale de getirebilirim.
             </p>
           </form>
         </div>
       </div>
     </section>
 
+    <section class="mt-5">
+      <div class="content-card">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-7">
+            <h2 class="fw-bold mb-3" style="color: var(--ana-lacivert);">Neden Bize Ulaşmalısınız?</h2>
+            <p class="text-muted mb-4">
+              Ergünler Yol Yapı olarak yalnızca ürün tedariki değil, üretim, saha uyumu, lojistik ve planlama tarafında da
+              çözüm sunuyoruz. İletişime geçtiğinizde yalnızca fiyat değil, işinize uygun yönlendirme de alırsınız.
+            </p>
+
+            <div class="row g-3">
+              <div class="col-md-6">
+                <div class="service-card">
+                  <i class="bi bi-lightning-charge fs-3 text-warning mb-3"></i>
+                  <h5 class="fw-bold">Hızlı Geri Dönüş</h5>
+                  <p class="text-muted small mb-0">Teklif ve bilgi taleplerine hızlı şekilde dönüş sağlarız.</p>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="service-card">
+                  <i class="bi bi-diagram-3 fs-3 text-warning mb-3"></i>
+                  <h5 class="fw-bold">Doğru Yönlendirme</h5>
+                  <p class="text-muted small mb-0">İhtiyacınıza uygun ürün veya hizmet grubunu netleştiririz.</p>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="service-card">
+                  <i class="bi bi-truck fs-3 text-warning mb-3"></i>
+                  <h5 class="fw-bold">Sevkiyat Planı</h5>
+                  <p class="text-muted small mb-0">Teslim süreci ve lojistik detayları hakkında net bilgi sunarız.</p>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="service-card">
+                  <i class="bi bi-shield-check fs-3 text-warning mb-3"></i>
+                  <h5 class="fw-bold">Kurumsal Güven</h5>
+                  <p class="text-muted small mb-0">Üretim ve saha gücümüzle daha güvenilir iş akışı sağlarız.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-5">
+            <div class="contact-card text-center h-100">
+              <i class="bi bi-headset fs-1 text-warning mb-3"></i>
+              <h4 class="fw-bold mb-3">Hızlı İletişim</h4>
+              <p class="text-muted mb-4">
+                Acil dönüş gerekiyorsa en hızlı kanal WhatsApp ve telefon iletişimidir.
+              </p>
+
+              <div class="d-grid gap-3">
+                <a href="tel:+905492503368" class="btn btn-outline-dark rounded-pill fw-bold py-3">
+                  <i class="bi bi-telephone me-2"></i> Hemen Ara
+                </a>
+                <a
+                  href="https://wa.me/905492503368"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="btn-teklif py-3"
+                >
+                  <i class="bi bi-whatsapp me-2"></i> WhatsApp’tan Yaz
+                </a>
+                <a href="mailto:info@ergunleryolyapi.com" class="btn btn-outline-dark rounded-pill fw-bold py-3">
+                  <i class="bi bi-envelope me-2"></i> E-Posta Gönder
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- FOOTER (diğer sayfalarla aynı standarda getirildi) -->
-  <footer class="footer mt-5 pt-0">
-
-    <div class="trust-strip">
+  <footer class="footer-pro mt-5">
+    <div class="footer-pro-top">
       <div class="container">
         <div class="row text-center g-3">
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-check-circle-fill"></i> ISO 9001 Onaylı</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-shield-fill-check"></i> TSE Standartları</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-globe"></i> Çevreye Duyarlı Üretim</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-gear-fill"></i> %100 Yerli Sermaye</div></div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>ISO 9001 Onaylı</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-shield-fill-check"></i>
+              <span>TSE Standartları</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-globe"></i>
+              <span>Çevreye Duyarlı Üretim</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-gear-fill"></i>
+              <span>%100 Yerli Sermaye</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-4">
-          <img src="images/logo.jpg" alt="Ergünler İnşaat" class="footer-logo mb-4">
-          <p class="small opacity-50">Erzurum merkezli firmamız, yapı sektöründe güven ve kalitenin adresidir.</p>
+    <div class="footer-pro-main">
+      <div class="container">
+        <div class="row g-5 align-items-start">
+          <div class="col-lg-5">
+            <div class="footer-pro-brand">
+              <img src="images/logo.jpg" alt="Ergünler Yol Yapı" class="footer-pro-logo" />
+
+              <p class="footer-pro-text">
+                Ergünler Yol Yapı Ltd. Şti.; yol, asfalt, agrega ve mikronize kalsit alanlarında üretim gücü,
+                saha deneyimi ve lojistik organizasyonu ile güvenilir çözümler sunan Erzurum merkezli bir yapı firmasıdır.
+              </p>
+
+              <p class="footer-pro-text mb-0">
+                Modern tesis altyapımız, makine parkurumuz ve planlı iş yapış anlayışımızla; projelere kaliteli,
+                sürdürülebilir ve zamanında hizmet sağlamayı hedefliyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-pro-col">
+              <h6 class="footer-pro-title">Hızlı Erişim</h6>
+              <ul class="footer-pro-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="kurumsal.html">Kurumsal</a></li>
+                <li><a href="tesisler.html">Tesislerimiz</a></li>
+                <li><a href="makine-parkuru.html">Makine Parkuru</a></li>
+                <li><a href="haberler.html">Haberler</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-pro-contact text-lg-end">
+              <h6 class="footer-pro-title">İletişim</h6>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-geo-alt"></i>
+                <span>Aziziye / Erzurum</span>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-telephone"></i>
+                <a href="tel:+905492503368">+90 549 250 3368</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-envelope"></i>
+                <a href="mailto:info@ergunleryolyapi.com">info@ergunleryolyapi.com</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-whatsapp"></i>
+                <a href="https://wa.me/905492503368" target="_blank" rel="noopener noreferrer">
+                  WhatsApp ile İletişim
+                </a>
+              </div>
+
+              <div class="footer-pro-btn-wrap justify-content-lg-end">
+                <a href="#teklifFormu" class="footer-pro-btn">TEKLİF AL</a>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="col-lg-2">
-          <h6 class="text-warning mb-4 fw-bold">NAVİGASYON</h6>
-          <ul class="list-unstyled">
-            <li class="mb-2"><a href="kurumsal.html" class="footer-link">Kurumsal</a></li>
-            <li class="mb-2"><a href="tesisler.html" class="footer-link">Tesislerimiz</a></li>
-            <li class="mb-2"><a href="iletisim.html" class="footer-link">İletişim</a></li>
-          </ul>
-        </div>
+        <div class="footer-pro-bottom">
+          <div class="footer-pro-bottom-wrap">
+            <p>© 2026 Ergünler Yol Yapı Ltd. Şti. Tüm hakları saklıdır.</p>
 
-        <div class="col-lg-6 text-lg-end">
-          <h6 class="text-warning mb-4 fw-bold text-lg-end">İLETİŞİM</h6>
-          <p class="small mb-1"><i class="bi bi-geo-alt text-warning me-2"></i> Aziziye / Erzurum</p>
-          <p class="small mb-4"><i class="bi bi-telephone text-warning me-2"></i> +90 549 250 3368</p>
-          <a href="#mainContactForm" class="btn-teklif">TEKLİF AL</a>
+            <div class="footer-pro-bottom-links">
+              <a href="kurumsal.html">Kurumsal</a>
+              <a href="haberler.html">Haberler</a>
+              <a href="iletisim.html">İletişim</a>
+            </div>
+          </div>
         </div>
       </div>
-
-      <hr class="mt-5 opacity-10">
-      <p class="text-center small opacity-50 mb-0">© 2026 Ergünler Yol Yapı Ltd. Şti.</p>
     </div>
-
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

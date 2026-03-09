@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Ergünler İçerik Yönetimi</title>
+  <meta name="description" content="Ergünler Yol Yapı içerik yönetim paneli. Haberler, kurumsal içerikler, tesisler ve ürün sayfalarını yönetin.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css.css">
+
+  <style>
+    :root{
+      --admin-bg: #f4f7fb;
+      --admin-card: #ffffff;
+      --admin-border: rgba(15, 27, 35, 0.08);
+      --admin-text: #111827;
+      --admin-muted: #6b7280;
+      --admin-dark: #111827;
+      --admin-accent: #f39c12;
+      --admin-accent-soft: rgba(243,156,18,.12);
+      --admin-shadow: 0 16px 40px rgba(15, 27, 35, 0.08);
+      --admin-radius: 22px;
+    }
+
+    body{
+      font-family:'Montserrat',sans-serif;
+      background: linear-gradient(180deg, #f6f8fc 0%, #eef3f9 100%);
+      color: var(--admin-text);
+    }
+
+    .admin-topbar{
+      background: linear-gradient(135deg, #0f1b23 0%, #182735 100%);
+      color:#fff;
+      padding:14px 0;
+      box-shadow: 0 10px 30px rgba(15,27,35,.18);
+    }
+
+    .admin-topbar a{
+      color:#fff;
+      text-decoration:none;
+      opacity:.92;
+      font-weight:600;
+    }
+
+    .admin-topbar a:hover{
+      opacity:1;
+    }
+
+    .admin-wrap{
+      padding: 34px 0 60px;
+    }
+
+    .admin-hero{
+      background: linear-gradient(135deg, #ffffff 0%, #f9fbff 100%);
+      border:1px solid var(--admin-border);
+      border-radius: 28px;
+      box-shadow: var(--admin-shadow);
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    .admin-hero-title{
+      font-size: clamp(1.6rem, 2.3vw, 2.3rem);
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--admin-dark);
+    }
+
+    .admin-hero-subtitle{
+      color: var(--admin-muted);
+      margin-bottom: 0;
+      max-width: 850px;
+      line-height: 1.65;
+    }
+
+    .admin-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background: var(--admin-accent-soft);
+      color:#9a6409;
+      font-size: 13px;
+      font-weight: 800;
+      border:1px solid rgba(243,156,18,.18);
+      white-space: nowrap;
+    }
+
+    .admin-card{
+      background: var(--admin-card);
+      border:1px solid var(--admin-border);
+      border-radius: var(--admin-radius);
+      box-shadow: var(--admin-shadow);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .admin-card-header{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:20px;
+    }
+
+    .admin-title{
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: var(--admin-dark);
+    }
+
+    .admin-subtitle{
+      margin:0;
+      color: var(--admin-muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .admin-stat-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:16px;
+      margin-top: 22px;
+    }
+
+    .admin-stat{
+      background:#fff;
+      border:1px solid var(--admin-border);
+      border-radius:20px;
+      padding:18px;
+      box-shadow: 0 8px 24px rgba(15,27,35,.05);
+    }
+
+    .admin-stat small{
+      display:block;
+      color: var(--admin-muted);
+      font-weight:700;
+      margin-bottom:6px;
+      text-transform:uppercase;
+      letter-spacing:.4px;
+    }
+
+    .admin-stat strong{
+      font-size:1.2rem;
+      font-weight:800;
+      color: var(--admin-dark);
+    }
+
+    .form-label{
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--admin-dark);
+      margin-bottom: 8px;
+    }
+
+    .admin-card .form-control,
+    .admin-card .form-select,
+    .admin-card textarea,
+    .admin-card input,
+    .admin-card select{
+      background:#fff !important;
+      color: var(--admin-text) !important;
+      border:1px solid #d7dee7 !important;
+      border-radius:14px !important;
+      min-height: 50px;
+      box-shadow:none !important;
+    }
+
+    .admin-card textarea{
+      min-height:140px;
+      resize: vertical;
+    }
+
+    .admin-card .form-control::placeholder,
+    .admin-card textarea::placeholder,
+    .admin-card input::placeholder{
+      color:#8a94a6 !important;
+      opacity:1 !important;
+    }
+
+    .admin-card .form-control:focus,
+    .admin-card .form-select:focus,
+    .admin-card textarea:focus,
+    .admin-card input:focus,
+    .admin-card select:focus{
+      border-color: var(--admin-accent) !important;
+      box-shadow: 0 0 0 .2rem rgba(243,156,18,.15) !important;
+      outline:none !important;
+    }
+
+    .admin-note{
+      font-size: 13px;
+      color: var(--admin-muted);
+      line-height:1.6;
+      margin-top:10px;
+      margin-bottom:0;
+    }
+
+    .section-mini-title{
+      font-size: .95rem;
+      font-weight: 800;
+      color: var(--admin-dark);
+      margin-bottom: 14px;
+    }
+
+    .admin-divider{
+      height:1px;
+      background:linear-gradient(90deg, rgba(15,27,35,0.05), rgba(15,27,35,0.12), rgba(15,27,35,0.05));
+      border:0;
+      margin: 24px 0;
+      opacity:1;
+    }
+
+    .admin-actions .btn{
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    .admin-table-wrap{
+      border:1px solid var(--admin-border);
+      border-radius:18px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    .table.admin-table{
+      margin-bottom:0;
+      vertical-align: middle;
+    }
+
+    .table.admin-table thead th{
+      background:#f8fafc;
+      border-bottom:1px solid #e7edf3;
+      color:#334155;
+      font-size:13px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.35px;
+      white-space: nowrap;
+    }
+
+    .table.admin-table td{
+      border-color:#eef2f6;
+    }
+
+    .admin-thumb{
+      width:90px;
+      height:60px;
+      object-fit:cover;
+      border-radius:12px;
+      background:#edf1f5;
+      border:1px solid #e4eaf1;
+    }
+
+    .admin-tab-nav{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-bottom:24px;
+    }
+
+    .admin-tab-nav .nav-link{
+      border:none;
+      border-radius:999px;
+      padding:12px 18px;
+      font-weight:800;
+      color:#334155;
+      background:#ffffff;
+      border:1px solid rgba(15,27,35,.08);
+      box-shadow: 0 6px 18px rgba(15,27,35,.04);
+    }
+
+    .admin-tab-nav .nav-link.active{
+      background: var(--admin-dark);
+      color:#fff;
+      border-color: var(--admin-dark);
+    }
+
+    .btn-admin-primary{
+      background: linear-gradient(135deg, #f39c12 0%, #ffb347 100%);
+      border:none;
+      color:#111827;
+      font-weight:800;
+      border-radius:14px;
+      min-height: 50px;
+      padding: 0 18px;
+      box-shadow: 0 12px 24px rgba(243,156,18,.18);
+    }
+
+    .btn-admin-primary:hover{
+      opacity:.95;
+      color:#111827;
+    }
+
+    .btn-admin-secondary{
+      border-radius:14px;
+      min-height: 50px;
+      font-weight:800;
+      padding: 0 18px;
+    }
+
+    .admin-grid-2{
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:24px;
+    }
+
+    .admin-sticky{
+      position: sticky;
+      top: 24px;
+    }
+
+    .soft-block{
+      background:#f8fafc;
+      border:1px solid #e8edf4;
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .soft-block h6{
+      font-weight:800;
+      margin-bottom:12px;
+      color:#0f172a;
+    }
+
+    .soft-block p{
+      margin-bottom:0;
+      color:#64748b;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    @media (max-width: 991.98px){
+      .admin-grid-2{
+        grid-template-columns: 1fr;
+      }
+
+      .admin-sticky{
+        position: static;
+      }
+
+      .admin-stat-grid{
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="admin-topbar">
+    <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
+      <strong class="d-flex align-items-center gap-2">
+        <i class="bi bi-shield-lock-fill"></i>
+        Ergünler Admin Panel
+      </strong>
+
+      <div class="d-flex align-items-center gap-3 flex-wrap">
+        <a href="index.html"><i class="bi bi-house-door me-1"></i> Ana Sayfa</a>
+        <a href="haberler.html"><i class="bi bi-newspaper me-1"></i> Haberler</a>
+        <a href="kurumsal.html"><i class="bi bi-buildings me-1"></i> Kurumsal</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-wrap">
+    <div class="container">
+
+      <section class="admin-hero">
+        <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-4">
+          <div>
+            <h1 class="admin-hero-title">İçerik Yönetim Paneli</h1>
+            <p class="admin-hero-subtitle">
+              Haberler, kurumsal içerikler, tesis sayfaları ve ürün metinlerini bu panelden yönetebilirsin.
+              Bu panel localStorage tabanlı çalışır; yani yaptığın değişiklikler aynı tarayıcıda görünür.
+            </p>
+          </div>
+          <div class="admin-pill">
+            <i class="bi bi-database-fill-gear"></i>
+            Local panel sürümü
+          </div>
+        </div>
+
+        <div class="admin-stat-grid">
+          <div class="admin-stat">
+            <small>Haber Kayıtları</small>
+            <strong id="newsCount">0 kayıt</strong>
+          </div>
+          <div class="admin-stat">
+            <small>Sistem Türü</small>
+            <strong>Tarayıcı Depolama</strong>
+          </div>
+          <div class="admin-stat">
+            <small>Yönetim Mantığı</small>
+            <strong>Tek Panel / Çok Sayfa</strong>
+          </div>
+        </div>
+      </section>
+
+      <ul class="nav admin-tab-nav" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="tab-news" data-bs-toggle="tab" data-bs-target="#pane-news" type="button" role="tab">
+            <i class="bi bi-newspaper me-2"></i>Haberler
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-corporate" data-bs-toggle="tab" data-bs-target="#pane-corporate" type="button" role="tab">
+            <i class="bi bi-buildings me-2"></i>Kurumsal
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-facilities" data-bs-toggle="tab" data-bs-target="#pane-facilities" type="button" role="tab">
+            <i class="bi bi-gear-wide-connected me-2"></i>Tesisler
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-white" data-bs-toggle="tab" data-bs-target="#pane-white" type="button" role="tab">
+            <i class="bi bi-box-seam me-2"></i>Beyaz Kalsit
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="tab-advanced" data-bs-toggle="tab" data-bs-target="#pane-advanced" type="button" role="tab">
+            <i class="bi bi-grid-3x3-gap-fill me-2"></i>Gelişmiş Tesisler
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content">
+
+        <!-- HABERLER -->
+        <div class="tab-pane fade show active" id="pane-news" role="tabpanel" aria-labelledby="tab-news">
+          <div class="admin-grid-2">
+            <div>
+              <div class="admin-card admin-sticky">
+                <div class="admin-card-header">
+                  <div>
+                    <h2 class="admin-title">Haber Formu</h2>
+                    <p class="admin-subtitle">Yeni haber ekle, mevcut haberi düzenle veya kayıt mantığını test et.</p>
+                  </div>
+                </div>
+
+                <form id="newsForm">
+                  <input type="hidden" id="newsIdHidden">
+
+                  <div class="mb-3">
+                    <label for="newsTitle" class="form-label">Başlık</label>
+                    <input type="text" id="newsTitle" class="form-control" placeholder="Haber başlığını gir" required>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label for="newsCategory" class="form-label">Kategori</label>
+                      <input type="text" id="newsCategory" class="form-control" placeholder="Örn: Duyuru" required>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                      <label for="newsDate" class="form-label">Tarih</label>
+                      <input type="date" id="newsDate" class="form-control" required>
+                    </div>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="newsImage" class="form-label">Görsel URL / Yol</label>
+                    <input type="text" id="newsImage" class="form-control" placeholder="images/haber-1.jpg veya https://...">
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="newsExcerpt" class="form-label">Kısa Özet</label>
+                    <textarea id="newsExcerpt" class="form-control" rows="3" placeholder="Haberin kısa açıklaması" required></textarea>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="newsContent" class="form-label">Detay İçerik</label>
+                    <textarea id="newsContent" class="form-control" rows="8" placeholder="Haber detay metni veya izin verilen temel HTML içerik"></textarea>
+                  </div>
+
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-admin-primary">
+                      <i class="bi bi-save me-2"></i>Kaydet
+                    </button>
+                    <button type="button" id="resetFormBtn" class="btn btn-outline-secondary btn-admin-secondary">
+                      <i class="bi bi-eraser me-2"></i>Formu Temizle
+                    </button>
+                  </div>
+
+                  <p class="admin-note">
+                    Başlık, kategori, tarih ve özet alanları zorunludur. Başlığa göre otomatik bir ID oluşturulur.
+                  </p>
+                </form>
+              </div>
+            </div>
+
+            <div>
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <div>
+                    <h2 class="admin-title">Kayıtlı Haberler</h2>
+                    <p class="admin-subtitle">Düzenle ve sil işlemleri buradan yapılır.</p>
+                  </div>
+                  <span class="admin-pill">
+                    <i class="bi bi-collection-fill"></i>
+                    <span id="newsCountBadge">Liste</span>
+                  </span>
+                </div>
+
+                <div class="admin-table-wrap">
+                  <div class="table-responsive">
+                    <table class="table admin-table align-middle">
+                      <thead>
+                        <tr>
+                          <th>Görsel</th>
+                          <th>Bilgi</th>
+                          <th>Tarih</th>
+                          <th>İşlem</th>
+                        </tr>
+                      </thead>
+                      <tbody id="adminNewsTableBody">
+                        <tr>
+                          <td colspan="4" class="text-center text-muted py-4">Henüz kayıt yok.</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    const observer = new MutationObserver(() => {
+                      const mainCount = document.getElementById('newsCount');
+                      const badge = document.getElementById('newsCountBadge');
+                      if (mainCount && badge) badge.textContent = mainCount.textContent;
+                    });
+
+                    const target = document.getElementById('newsCount');
+                    if (target) {
+                      observer.observe(target, { childList: true, subtree: true, characterData: true });
+                      const badge = document.getElementById('newsCountBadge');
+                      if (badge) badge.textContent = target.textContent;
+                    }
+                  });
+                </script>
+              </div>
+
+              <div class="admin-card">
+                <div class="soft-block">
+                  <h6><i class="bi bi-lightbulb-fill text-warning me-2"></i>Haber Yönetimi İpucu</h6>
+                  <p>
+                    Görsel yolunu mümkünse proje içinden ver: <strong>images/haber-1.jpg</strong>.
+                    Uzun içerik kullanıyorsan önce kısa bir özet yaz, sonra detay metnini ekle.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KURUMSAL -->
+        <div class="tab-pane fade" id="pane-corporate" role="tabpanel" aria-labelledby="tab-corporate">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h2 class="admin-title">Kurumsal Sayfa Yönetimi</h2>
+                <p class="admin-subtitle">Hakkımızda sayfasındaki ana metinleri ve blok içeriklerini düzenle.</p>
+              </div>
+            </div>
+
+            <form id="corporateForm">
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <label for="corpPageTitle" class="form-label">Sayfa Başlığı</label>
+                  <input type="text" id="corpPageTitle" class="form-control" placeholder="Hakkımızda">
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <label for="corpPageLead" class="form-label">Sayfa Alt Metni</label>
+                  <input type="text" id="corpPageLead" class="form-control" placeholder="Üretimden Sahaya • Tek Elden Güçlü Altyapı Çözümleri">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="corpMainTitle" class="form-label">Ana Başlık</label>
+                <input type="text" id="corpMainTitle" class="form-control" placeholder="Güçlü Geçmiş, Sağlam Altyapı">
+              </div>
+
+              <div class="mb-3">
+                <label for="corpMainText" class="form-label">Ana Metin</label>
+                <textarea id="corpMainText" class="form-control" rows="6"></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="corpVision" class="form-label">Vizyon</label>
+                  <textarea id="corpVision" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                  <label for="corpMission" class="form-label">Misyon</label>
+                  <textarea id="corpMission" class="form-control" rows="5"></textarea>
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                  <label for="corpOperation" class="form-label">Operasyon / Ek Metin</label>
+                  <textarea id="corpOperation" class="form-control" rows="5"></textarea>
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-admin-primary">
+                  <i class="bi bi-save me-2"></i>Kurumsal Veriyi Kaydet
+                </button>
+                <button type="button" id="loadCorporateBtn" class="btn btn-outline-secondary btn-admin-secondary">
+                  <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- TESİSLER -->
+        <div class="tab-pane fade" id="pane-facilities" role="tabpanel" aria-labelledby="tab-facilities">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h2 class="admin-title">Tesisler Sayfası Yönetimi</h2>
+                <p class="admin-subtitle">Tesisler sayfasındaki 2 ana içerik bloğunu düzenle.</p>
+              </div>
+            </div>
+
+            <form id="facilitiesForm">
+              <div class="section-mini-title">1. Tesis Bloğu</div>
+
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <label for="facility1Top" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facility1Top" class="form-control" placeholder="Natro Markası">
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                  <label for="facility1Title" class="form-label">Başlık</label>
+                  <input type="text" id="facility1Title" class="form-control" placeholder="Mikronize Kalsit Üretim Tesisi">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="facility1Text" class="form-label">Açıklama</label>
+                <textarea id="facility1Text" class="form-control" rows="4"></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facility1Badge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facility1Badge1" class="form-control" placeholder="2–5 μ Mikron Hassasiyeti">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facility1Badge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facility1Badge2" class="form-control" placeholder="Yüksek Safiyet">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facility1Badge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facility1Badge3" class="form-control" placeholder="Gri Kalsit Cevheri">
+                </div>
+              </div>
+
+              <hr class="admin-divider">
+
+              <div class="section-mini-title">2. Tesis Bloğu</div>
+
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <label for="facility2Top" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facility2Top" class="form-control" placeholder="Yol & Altyapı Gücü">
+                </div>
+
+                <div class="col-lg-6 mb-3">
+                  <label for="facility2Title" class="form-label">Başlık</label>
+                  <input type="text" id="facility2Title" class="form-control" placeholder="Asfalt Plenti & Kalsit Ocağı">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="facility2Text" class="form-label">Açıklama</label>
+                <textarea id="facility2Text" class="form-control" rows="4"></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facility2Badge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facility2Badge1" class="form-control" placeholder="Filo">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facility2Badge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facility2Badge2" class="form-control" placeholder="Modern Plent Teknolojisi">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facility2Badge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facility2Badge3" class="form-control" placeholder="Kesintisiz Sevkiyat">
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-admin-primary">
+                  <i class="bi bi-save me-2"></i>Tesis Verisini Kaydet
+                </button>
+                <button type="button" id="loadFacilitiesBtn" class="btn btn-outline-secondary btn-admin-secondary">
+                  <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- BEYAZ KALSİT -->
+        <div class="tab-pane fade" id="pane-white" role="tabpanel" aria-labelledby="tab-white">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h2 class="admin-title">Beyaz Kalsit Sayfası Yönetimi</h2>
+                <p class="admin-subtitle">Beyaz kalsit sayfasındaki başlık, özet, rozet ve teknik bilgi alanlarını düzenle.</p>
+              </div>
+            </div>
+
+            <form id="whiteCalciteForm">
+              <div class="row">
+                <div class="col-lg-6 mb-3">
+                  <label for="whiteHeaderTitle" class="form-label">Sayfa Başlığı</label>
+                  <input type="text" id="whiteHeaderTitle" class="form-control" placeholder="Beyaz Kalsit">
+                </div>
+                <div class="col-lg-6 mb-3">
+                  <label for="whiteHeaderLead" class="form-label">Alt Başlık</label>
+                  <input type="text" id="whiteHeaderLead" class="form-control" placeholder="Natro üretim gücü ile mikronize çözümler">
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="whiteSummaryTitle" class="form-label">Özet Başlığı</label>
+                <input type="text" id="whiteSummaryTitle" class="form-control" placeholder="Ürün Özeti">
+              </div>
+
+              <div class="mb-3">
+                <label for="whiteSummaryText" class="form-label">Özet Metni</label>
+                <textarea id="whiteSummaryText" class="form-control" rows="5"></textarea>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="whiteBadge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="whiteBadge1" class="form-control" placeholder="2–5 µ Hassasiyet">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="whiteBadge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="whiteBadge2" class="form-control" placeholder="Stabil Kalite">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="whiteBadge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="whiteBadge3" class="form-control" placeholder="Sevkiyata Uygun">
+                </div>
+              </div>
+
+              <hr class="admin-divider">
+
+              <div class="section-mini-title">Teknik Bilgi Alanı</div>
+
+              <div class="mb-3">
+                <label for="whiteTechnicalTitle" class="form-label">Teknik Bilgi Başlığı</label>
+                <input type="text" id="whiteTechnicalTitle" class="form-control" placeholder="Teknik Bilgiler">
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="whiteTech1Name" class="form-label">Özellik 1 Adı</label>
+                  <input type="text" id="whiteTech1Name" class="form-control" placeholder="Renk">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="whiteTech1Value" class="form-label">Özellik 1 Değeri</label>
+                  <input type="text" id="whiteTech1Value" class="form-control" placeholder="Beyaz / Açık ton">
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                  <label for="whiteTech2Name" class="form-label">Özellik 2 Adı</label>
+                  <input type="text" id="whiteTech2Name" class="form-control" placeholder="Mikron Aralığı">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="whiteTech2Value" class="form-label">Özellik 2 Değeri</label>
+                  <input type="text" id="whiteTech2Value" class="form-control" placeholder="Talebe göre">
+                </div>
+
+                <div class="col-lg-4 mb-3">
+                  <label for="whiteTech3Name" class="form-label">Özellik 3 Adı</label>
+                  <input type="text" id="whiteTech3Name" class="form-control" placeholder="Paketleme">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="whiteTech3Value" class="form-label">Özellik 3 Değeri</label>
+                  <input type="text" id="whiteTech3Value" class="form-control" placeholder="Torbalı / Dökme">
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-admin-primary">
+                  <i class="bi bi-save me-2"></i>Beyaz Kalsit Verisini Kaydet
+                </button>
+                <button type="button" id="loadWhiteCalciteBtn" class="btn btn-outline-secondary btn-admin-secondary">
+                  <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- GELİŞMİŞ TESİSLER -->
+        <div class="tab-pane fade" id="pane-advanced" role="tabpanel" aria-labelledby="tab-advanced">
+          <div class="admin-card">
+            <div class="admin-card-header">
+              <div>
+                <h2 class="admin-title">Gelişmiş Tesis Kartları Yönetimi</h2>
+                <p class="admin-subtitle">Tesisler sayfasındaki asfalt, gri kalsit, beyaz kalsit ve agrega bloklarını ayrı ayrı yönet.</p>
+              </div>
+            </div>
+
+            <form id="facilitiesAdvancedForm">
+
+              <div class="section-mini-title">Asfalt Bloğu</div>
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="facilityAsphaltKicker" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facilityAsphaltKicker" class="form-control">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="facilityAsphaltTitle" class="form-label">Başlık</label>
+                  <input type="text" id="facilityAsphaltTitle" class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="facilityAsphaltText" class="form-label">Açıklama</label>
+                <textarea id="facilityAsphaltText" class="form-control" rows="4"></textarea>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAsphaltBadge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facilityAsphaltBadge1" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAsphaltBadge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facilityAsphaltBadge2" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAsphaltBadge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facilityAsphaltBadge3" class="form-control">
+                </div>
+              </div>
+
+              <hr class="admin-divider">
+
+              <div class="section-mini-title">Gri Kalsit Bloğu</div>
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="facilityGrayKicker" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facilityGrayKicker" class="form-control">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="facilityGrayTitle" class="form-label">Başlık</label>
+                  <input type="text" id="facilityGrayTitle" class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="facilityGrayText" class="form-label">Açıklama</label>
+                <textarea id="facilityGrayText" class="form-control" rows="4"></textarea>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facilityGrayBadge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facilityGrayBadge1" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityGrayBadge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facilityGrayBadge2" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityGrayBadge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facilityGrayBadge3" class="form-control">
+                </div>
+              </div>
+
+              <hr class="admin-divider">
+
+              <div class="section-mini-title">Beyaz Kalsit Bloğu</div>
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="facilityWhiteKicker" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facilityWhiteKicker" class="form-control">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="facilityWhiteTitle" class="form-label">Başlık</label>
+                  <input type="text" id="facilityWhiteTitle" class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="facilityWhiteText" class="form-label">Açıklama</label>
+                <textarea id="facilityWhiteText" class="form-control" rows="4"></textarea>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facilityWhiteBadge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facilityWhiteBadge1" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityWhiteBadge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facilityWhiteBadge2" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityWhiteBadge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facilityWhiteBadge3" class="form-control">
+                </div>
+              </div>
+
+              <hr class="admin-divider">
+
+              <div class="section-mini-title">Agrega Bloğu</div>
+              <div class="row">
+                <div class="col-lg-4 mb-3">
+                  <label for="facilityAgregaKicker" class="form-label">Üst Etiket</label>
+                  <input type="text" id="facilityAgregaKicker" class="form-control">
+                </div>
+                <div class="col-lg-8 mb-3">
+                  <label for="facilityAgregaTitle" class="form-label">Başlık</label>
+                  <input type="text" id="facilityAgregaTitle" class="form-control">
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="facilityAgregaText" class="form-label">Açıklama</label>
+                <textarea id="facilityAgregaText" class="form-control" rows="4"></textarea>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAgregaBadge1" class="form-label">Rozet 1</label>
+                  <input type="text" id="facilityAgregaBadge1" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAgregaBadge2" class="form-label">Rozet 2</label>
+                  <input type="text" id="facilityAgregaBadge2" class="form-control">
+                </div>
+                <div class="col-md-4 mb-3">
+                  <label for="facilityAgregaBadge3" class="form-label">Rozet 3</label>
+                  <input type="text" id="facilityAgregaBadge3" class="form-control">
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-admin-primary">
+                  <i class="bi bi-save me-2"></i>Gelişmiş Tesis Verisini Kaydet
+                </button>
+                <button type="button" id="loadFacilitiesAdvancedBtn" class="btn btn-outline-secondary btn-admin-secondary">
+                  <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

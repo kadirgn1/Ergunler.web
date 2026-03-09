@@ -4,263 +4,452 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tesislerimiz | Ergünler Yol Yapı Ltd. Şti. | Erzurum</title>
+  <meta
+    name="description"
+    content="Ergünler Yol Yapı tesisleri: asfalt tesisi, gri kalsit tesisi, beyaz kalsit tesisi ve agrega kırma-eleme tesisi. Erzurum / Aziziye merkezli üretim ve saha gücü."
+  />
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Playfair+Display:wght@700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <link rel="stylesheet" href="css.css" />
 </head>
 
 <body>
-
-  <!-- PRELOADER (istersen kaldırabilirsin; script.js zaten yönetiyor) -->
-  
-
- <nav class="navbar navbar-expand-lg sticky-top">
-  <div class="container">
-    <a class="navbar-brand brand" href="index.html">
-  <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon">
-  <span class="brand-text">
-    <span class="brand-name">ERGÜNLER</span>
-    <span class="brand-sub">inşaat • asfalt • yol • yapı</span>
-  </span>
-</a>
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">ANA SAYFA</a>
-        </li>
-
-         <li class="nav-item dropdown nav-hover">
-      <a class="nav-link dropdown-toggle" href="#" id="kurumsalMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        KURUMSAL
-      </a>
-      <ul class="dropdown-menu" aria-labelledby="kurumsalMenu">
-        <li><a class="dropdown-item" href="kurumsal.html">Hakkımızda</a></li>
-        <li><a class="dropdown-item" href="makine-parkuru.html">Araç & Makine Parkuru</a></li>
-        </ul>
-    </li>
-
-        <li class="nav-item dropdown nav-hover">
-          <a class="nav-link dropdown-toggle" href="#" id="urunlerMenu" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            ÜRÜNLER
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="urunlerMenu">
-            <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
-            <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
-            <li><a class="dropdown-item" href="agrega.html">Agrega</a></li>
-            <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
-          </ul>
-        </li>
-
-        <!-- ✅ AKTİF: TESİSLER -->
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="tesisler.html">TESİSLER</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="haberler.html">HABERLER</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="iletisim.html">İLETİŞİM</a>
-        </li>
-
-        <li class="nav-item ms-lg-3">
-          <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
-        </li>
-
-      </ul>
-    </div>
-  </div>
-</nav>
-  <header class="page-header header-tesisler">
+  <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
-      <h1 class="mb-3">Üretim Tesislerimiz</h1>
-      <p class="lead opacity-75 fs-4">Teknoloji ve Hammadde Gücüyle Endüstriyel Çözümler</p>
+      <a class="navbar-brand brand" href="index.html">
+        <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon" />
+        <span class="brand-text">
+          <span class="brand-name">ERGÜNLER</span>
+          <span class="brand-sub">inşaat • asfalt • yol • yapı</span>
+        </span>
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+      >
+        <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">ANA SAYFA</a>
+          </li>
+
+          <li class="nav-item dropdown nav-hover">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="kurumsalMenu"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              KURUMSAL
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="kurumsalMenu">
+              <li><a class="dropdown-item" href="kurumsal.html">Hakkımızda</a></li>
+              <li><a class="dropdown-item" href="makine-parkuru.html">Araç &amp; Makine Parkuru</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item dropdown nav-hover">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="urunlerMenu"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              ÜRÜNLER
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="urunlerMenu">
+              <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
+              <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
+              <li><a class="dropdown-item" href="agrega.html">Agrega</a></li>
+              <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="tesisler.html">TESİSLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="haberler.html">HABERLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="iletisim.html">İLETİŞİM</a>
+          </li>
+
+          <li class="nav-item ms-lg-3">
+            <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="page-header header-tesisler">
+    <div class="container text-center">
+      <h1 class="mb-3">Tesislerimiz</h1>
+      <p class="lead opacity-75 fs-4 mb-0">
+        Asfalt, agrega ve mikronize kalsit üretim altyapımızı yakından inceleyin
+      </p>
     </div>
   </header>
 
+  <div class="container stats-container">
+    <div class="tesis-mini-stats text-center">
+      <div class="row g-4">
+        <div class="col-md-3">
+          <span class="stat-val" data-target="4" data-suffix="+">0</span>
+          <span class="stat-label">Ana Tesis Bloğu</span>
+          <p class="small text-muted mt-1 mb-0">Üretim ve saha odaklı yapı</p>
+        </div>
+
+        <div class="col-md-3 border-md-start border-md-end">
+          <span class="stat-val" data-target="5" data-suffix=" μ">0</span>
+          <span class="stat-label">Mikronize Üretim</span>
+          <p class="small text-muted mt-1 mb-0">Hassas kalsit işleme gücü</p>
+        </div>
+
+        <div class="col-md-3 border-md-end">
+          <span class="stat-val" data-target="100" data-suffix="%">0</span>
+          <span class="stat-label">Saha Entegrasyonu</span>
+          <p class="small text-muted mt-1 mb-0">Lojistik ve operasyon uyumu</p>
+        </div>
+
+        <div class="col-md-3">
+          <span class="stat-val" data-target="1" data-suffix=" Merkez">0</span>
+          <span class="stat-label">Erzurum / Aziziye</span>
+          <p class="small text-muted mt-1 mb-0">Operasyon merkezi</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <main class="container py-5">
+    <section class="mb-5">
+      <div class="tesis-intro-card text-center">
+        <h2 class="fw-bold mb-3" style="color: var(--ana-lacivert);">Üretim ve Operasyon Altyapımız</h2>
+        <p class="text-muted mb-0">
+          Tesis yapımızı ürün ve operasyon bazında ayrı ayrı planlıyor; asfalt, agrega, gri kalsit ve beyaz kalsit tarafında
+          kontrollü üretim, stoklama ve sevkiyat süreci kuruyoruz.
+        </p>
 
-    <!-- 1) NATRO TESİS -->
-    <section class="tesis-card mb-5">
-      <div class="row g-0">
-        <!-- Görsel alanı (şimdilik placeholder) -->
-        <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center" style="min-height: 350px;">
-          <div class="text-center">
-            <i class="bi bi-gear-wide-connected display-1 opacity-25"></i>
-            <div class="small text-muted mt-2">Tesis Fotoğrafı (eklenecek)</div>
+        <div class="tesis-anchor-nav">
+          <a href="#asfaltTesisi" class="tesis-anchor-link">Asfalt Tesisi</a>
+          <a href="#griKalsitTesisi" class="tesis-anchor-link">Gri Kalsit Tesisi</a>
+          <a href="#beyazKalsitTesisi" class="tesis-anchor-link">Beyaz Kalsit Tesisi</a>
+          <a href="#agregaTesisi" class="tesis-anchor-link">Agrega Tesisi</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-4">
+      <div class="col-lg-6" id="asfaltTesisi">
+        <div class="tesis-grid-card">
+          <div class="tesis-grid-media">
+            <div class="tesis-grid-media-inner">
+              <i class="bi bi-cone-striped"></i>
+              <div class="small">Asfalt Plenti Görseli</div>
+            </div>
+          </div>
+
+          <div class="tesis-grid-body">
+            <div class="tesis-kicker" id="facilityAsphaltKickerText">
+              <i class="bi bi-fuel-pump"></i> Asfalt Üretimi
+            </div>
+            <h2 class="tesis-title" id="facilityAsphaltTitleText">Asfalt Tesisi</h2>
+            <p class="tesis-text" id="facilityAsphaltTextText">
+              Modern plent altyapımız ile yol projeleri için düzenli, kontrollü ve saha takvimine uyumlu asfalt üretimi sağlıyoruz.
+              Üretim planlamasını sevkiyat ve uygulama temposuna göre organize ediyoruz.
+            </p>
+            <div class="tesis-specs">
+              <span class="spec-badge" id="facilityAsphaltBadge1Text">Plent Altyapısı</span>
+              <span class="spec-badge" id="facilityAsphaltBadge2Text">Saha Uyumlu Üretim</span>
+              <span class="spec-badge" id="facilityAsphaltBadge3Text">Planlı Sevkiyat</span>
+            </div>
+            <a href="asfalt.html" class="btn-teklif">ASFALT DETAYI</a>
           </div>
         </div>
+      </div>
 
-        <div class="col-lg-6 p-5 d-flex flex-column justify-content-center">
-          <h6 class="text-warning fw-bold text-uppercase">Natro Markası</h6>
-          <h2 class="fw-bold mb-4">Mikronize Kalsit Üretim Tesisi</h2>
-
-          <p class="text-muted">
-            Aziziye / Erzurum’daki modern tesisimizde, kendi ocağımızdan çıkarılan gri kalsit cevherini yüksek hassasiyetle işliyoruz.
-            Yapı kimyasalları sektörünün hammadde ihtiyacını yüksek standartlarda karşılıyoruz.
-          </p>
-
-          <div class="mt-3">
-            <span class="spec-badge">2–5 μ Mikron Hassasiyeti</span>
-            <span class="spec-badge">Yüksek Safiyet</span>
-            <span class="spec-badge">Gri Kalsit Cevheri</span>
+      <div class="col-lg-6" id="griKalsitTesisi">
+        <div class="tesis-grid-card">
+          <div class="tesis-grid-media">
+            <div class="tesis-grid-media-inner">
+              <i class="bi bi-gear-wide-connected"></i>
+              <div class="small">Gri Kalsit Tesisi Görseli</div>
+            </div>
           </div>
 
-          <div class="mt-4">
-            <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+          <div class="tesis-grid-body">
+            <div class="tesis-kicker" id="facilityGrayKickerText">
+              <i class="bi bi-circle-half"></i> Natro Üretim Hattı
+            </div>
+            <h2 class="tesis-title" id="facilityGrayTitleText">Gri Kalsit Tesisi</h2>
+            <p class="tesis-text" id="facilityGrayTextText">
+              Kendi hammadde altyapımızdan beslenen gri kalsit üretim sürecinde, istenen mikron aralığında kontrollü öğütme
+              ve düzenli ürün standardı sağlamayı hedefliyoruz.
+            </p>
+            <div class="tesis-specs">
+              <span class="spec-badge" id="facilityGrayBadge1Text">2–5 μ Hassasiyet</span>
+              <span class="spec-badge" id="facilityGrayBadge2Text">Gri Cevher İşleme</span>
+              <span class="spec-badge" id="facilityGrayBadge3Text">Stabil Üretim</span>
+            </div>
+            <a href="gri-kalsit.html" class="btn-teklif">GRİ KALSİT DETAYI</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" id="beyazKalsitTesisi">
+        <div class="tesis-grid-card">
+          <div class="tesis-grid-media">
+            <div class="tesis-grid-media-inner">
+              <i class="bi bi-brightness-high"></i>
+              <div class="small">Beyaz Kalsit Tesisi Görseli</div>
+            </div>
+          </div>
+
+          <div class="tesis-grid-body">
+            <div class="tesis-kicker" id="facilityWhiteKickerText">
+              <i class="bi bi-stars"></i> Açık Ton Üretim
+            </div>
+            <h2 class="tesis-title" id="facilityWhiteTitleText">Beyaz Kalsit Tesisi</h2>
+            <p class="tesis-text" id="facilityWhiteTextText">
+              Beyaz mikronize kalsit tarafında daha hassas kullanım alanlarına uygun, temiz tonlu ve düzenli kalite standardına sahip
+              ürün akışı oluşturuyoruz.
+            </p>
+            <div class="tesis-specs">
+              <span class="spec-badge" id="facilityWhiteBadge1Text">Açık Ton Üretim</span>
+              <span class="spec-badge" id="facilityWhiteBadge2Text">Hassas Öğütme</span>
+              <span class="spec-badge" id="facilityWhiteBadge3Text">Endüstriyel Uyum</span>
+            </div>
+            <a href="beyaz-kalsit.html" class="btn-teklif">BEYAZ KALSİT DETAYI</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6" id="agregaTesisi">
+        <div class="tesis-grid-card">
+          <div class="tesis-grid-media">
+            <div class="tesis-grid-media-inner">
+              <i class="bi bi-grid-3x3-gap"></i>
+              <div class="small">Agrega / Kırma-Eleme Tesisi Görseli</div>
+            </div>
+          </div>
+
+          <div class="tesis-grid-body">
+            <div class="tesis-kicker" id="facilityAgregaKickerText">
+              <i class="bi bi-diagram-3"></i> Kırma-Eleme Altyapısı
+            </div>
+            <h2 class="tesis-title" id="facilityAgregaTitleText">Agrega Tesisi</h2>
+            <p class="tesis-text" id="facilityAgregaTextText">
+              Kırma-eleme tesisimizde farklı fraksiyonlarda agrega üretimi yapıyor; altyapı, yol ve dolgu projeleri için
+              projeye uygun malzeme akışı ve planlı sevkiyat sağlıyoruz.
+            </p>
+            <div class="tesis-specs">
+              <span class="spec-badge" id="facilityAgregaBadge1Text">Fraksiyon Yönetimi</span>
+              <span class="spec-badge" id="facilityAgregaBadge2Text">Kırma-Eleme</span>
+              <span class="spec-badge" id="facilityAgregaBadge3Text">Hızlı Yükleme</span>
+            </div>
+            <a href="agrega.html" class="btn-teklif">AGREGA DETAYI</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 2) ASFALT + OCAK -->
-    <section class="tesis-card">
-      <div class="row g-0 flex-row-reverse">
-        <!-- Görsel alanı (şimdilik placeholder) -->
-        <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center" style="min-height: 350px;">
-          <div class="text-center">
-            <i class="bi bi-cone-striped display-1 opacity-25"></i>
-            <div class="small text-muted mt-2">Plent / Saha Fotoğrafı (eklenecek)</div>
+    <section class="mt-5">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold mb-2" style="color: var(--ana-lacivert);">
+          Tesis Yapımızın <span class="text-turuncu">Avantajları</span>
+        </h2>
+        <p class="text-muted mb-0">
+          Üretim, planlama ve saha koordinasyonunda bize güç kazandıran temel özellikler
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="tesis-feature-card text-center">
+            <div class="tesis-feature-icon mx-auto">
+              <i class="bi bi-sliders2-vertical"></i>
+            </div>
+            <h4 class="fw-bold mb-2">Kontrollü Süreç</h4>
+            <p class="text-muted mb-0">
+              Ürün ve saha ihtiyaçlarını ayrı ayrı planlayarak daha dengeli üretim akışı sağlıyoruz.
+            </p>
           </div>
         </div>
 
-        <div class="col-lg-6 p-5 d-flex flex-column justify-content-center">
-          <h6 class="text-warning fw-bold text-uppercase">Yol & Altyapı Gücü</h6>
-          <h2 class="fw-bold mb-4">Asfalt Plenti & Kalsit Ocağı</h2>
-
-          <p class="text-muted">
-            Geniş araç filomuz ve modern asfalt plentimiz ile yol projelerine hız katıyoruz.
-            Güçlü filomuz ile lojistik gücümüzü üretim kapasitemizle birleştiriyoruz.
-          </p>
-
-          <div class="mt-3">
-            <span class="spec-badge"> Filo</span>
-            <span class="spec-badge">Modern Plent Teknolojisi</span>
-            <span class="spec-badge">Kesintisiz Sevkiyat</span>
+        <div class="col-lg-4">
+          <div class="tesis-feature-card text-center">
+            <div class="tesis-feature-icon mx-auto">
+              <i class="bi bi-truck-front"></i>
+            </div>
+            <h4 class="fw-bold mb-2">Sevkiyat ve Operasyon</h4>
+            <p class="text-muted mb-0">
+              Lojistik tarafı üretimle birlikte düşünerek sahaya daha düzenli teslimat planı kuruyoruz.
+            </p>
           </div>
+        </div>
 
-          <div class="mt-4">
-            <a href="iletisim.html" class="btn-teklif">PROJE GÖRÜŞMESİ</a>
+        <div class="col-lg-4">
+          <div class="tesis-feature-card text-center">
+            <div class="tesis-feature-icon mx-auto">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h4 class="fw-bold mb-2">Güven ve Süreklilik</h4>
+            <p class="text-muted mb-0">
+              Tek merkezli koordinasyon ile daha kontrollü, daha güvenilir ve sürdürülebilir hizmet sunuyoruz.
+            </p>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="tesis-card mb-5">
-      <div class="row g-0">
-        <!-- Görsel alanı (şimdilik placeholder) -->
-        <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center" style="min-height: 350px;">
-          <div class="text-center">
-            <i class="bi bi-gear-wide-connected display-1 opacity-25"></i>
-            <div class="small text-muted mt-2">Tesis Fotoğrafı (eklenecek)</div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 p-5 d-flex flex-column justify-content-center">
-          <h6 class="text-warning fw-bold text-uppercase">Natro Markası</h6>
-          <h2 class="fw-bold mb-4">Mikronize Kalsit Üretim Tesisi</h2>
-
-          <p class="text-muted">
-            Aziziye / Erzurum’daki modern tesisimizde, kendi ocağımızdan çıkarılan gri kalsit cevherini yüksek hassasiyetle işliyoruz.
-            Yapı kimyasalları sektörünün hammadde ihtiyacını yüksek standartlarda karşılıyoruz.
-          </p>
-
-          <div class="mt-3">
-            <span class="spec-badge">2–5 μ Mikron Hassasiyeti</span>
-            <span class="spec-badge">Yüksek Safiyet</span>
-            <span class="spec-badge">Gri Kalsit Cevheri</span>
-          </div>
-
-          <div class="mt-4">
-            <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="tesis-card">
-      <div class="row g-0 flex-row-reverse">
-        <!-- Görsel alanı (şimdilik placeholder) -->
-        <div class="col-lg-6 bg-light d-flex align-items-center justify-content-center" style="min-height: 350px;">
-          <div class="text-center">
-            <i class="bi bi-cone-striped display-1 opacity-25"></i>
-            <div class="small text-muted mt-2">Plent / Saha Fotoğrafı (eklenecek)</div>
-          </div>
-        </div>
-
-        <div class="col-lg-6 p-5 d-flex flex-column justify-content-center">
-          <h6 class="text-warning fw-bold text-uppercase">Yol & Altyapı Gücü</h6>
-          <h2 class="fw-bold mb-4">Asfalt Plenti & Kalsit Ocağı</h2>
-
-          <p class="text-muted">
-            Geniş araç filomuz ve modern asfalt plentimiz ile yol projelerine hız katıyoruz.
-            Güçlü filomuz ile lojistik gücümüzü üretim kapasitemizle birleştiriyoruz.
-          </p>
-
-          <div class="mt-3">
-            <span class="spec-badge"> Filo</span>
-            <span class="spec-badge">Modern Plent Teknolojisi</span>
-            <span class="spec-badge">Kesintisiz Sevkiyat</span>
-          </div>
-
-          <div class="mt-4">
-            <a href="iletisim.html" class="btn-teklif">PROJE GÖRÜŞMESİ</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
   </main>
 
-  <!-- FOOTER (diğer sayfalarla uyumlu: trust-strip + ana footer) -->
-  <footer class="footer mt-5 pt-0">
+  <section class="tesis-cta">
+    <div class="container text-center">
+      <h2 class="text-white mb-3">Tesis Altyapımızla Projene Güç Katıyoruz</h2>
+      <p class="text-white-50 mb-4 fs-5">
+        Üretim kapasitesi, ürün detayları ve sevkiyat planı için bizimle iletişime geç.
+      </p>
+      <a href="iletisim.html" class="btn-teklif px-5 py-3">TEKLİF ALIN</a>
+    </div>
+  </section>
 
-    <div class="trust-strip">
+  <footer class="footer-pro mt-5">
+    <div class="footer-pro-top">
       <div class="container">
         <div class="row text-center g-3">
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-check-circle-fill"></i> ISO 9001 Onaylı</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-shield-fill-check"></i> TSE Standartları</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-globe"></i> Çevreye Duyarlı Üretim</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-gear-fill"></i> %100 Yerli Sermaye</div></div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>ISO 9001 Onaylı</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-shield-fill-check"></i>
+              <span>TSE Standartları</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-globe"></i>
+              <span>Çevreye Duyarlı Üretim</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-gear-fill"></i>
+              <span>%100 Yerli Sermaye</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-4">
-          <img src="images/logo.jpg" alt="Ergünler İnşaat" class="footer-logo mb-4">
-          <p class="small opacity-50">Erzurum  merkezli firmamız, yapı sektöründe güven ve kalitenin adresidir.</p>
+    <div class="footer-pro-main">
+      <div class="container">
+        <div class="row g-5 align-items-start">
+          <div class="col-lg-5">
+            <div class="footer-pro-brand">
+              <img src="images/logo.jpg" alt="Ergünler Yol Yapı" class="footer-pro-logo" />
+
+              <p class="footer-pro-text">
+                Ergünler Yol Yapı Ltd. Şti.; yol, asfalt, agrega ve mikronize kalsit alanlarında üretim gücü,
+                saha deneyimi ve lojistik organizasyonu ile güvenilir çözümler sunan Erzurum merkezli bir yapı firmasıdır.
+              </p>
+
+              <p class="footer-pro-text mb-0">
+                Modern tesis altyapımız, makine parkurumuz ve planlı iş yapış anlayışımızla; projelere kaliteli,
+                sürdürülebilir ve zamanında hizmet sağlamayı hedefliyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-pro-col">
+              <h6 class="footer-pro-title">Hızlı Erişim</h6>
+              <ul class="footer-pro-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="kurumsal.html">Kurumsal</a></li>
+                <li><a href="tesisler.html">Tesislerimiz</a></li>
+                <li><a href="makine-parkuru.html">Makine Parkuru</a></li>
+                <li><a href="haberler.html">Haberler</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-pro-contact text-lg-end">
+              <h6 class="footer-pro-title">İletişim</h6>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-geo-alt"></i>
+                <span>Aziziye / Erzurum</span>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-telephone"></i>
+                <a href="tel:+905492503368">+90 549 250 3368</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-envelope"></i>
+                <a href="mailto:info@ergunleryolyapi.com">info@ergunleryolyapi.com</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-whatsapp"></i>
+                <a href="https://wa.me/905492503368" target="_blank" rel="noopener noreferrer">
+                  WhatsApp ile İletişim
+                </a>
+              </div>
+
+              <div class="footer-pro-btn-wrap justify-content-lg-end">
+                <a href="iletisim.html" class="footer-pro-btn">TEKLİF AL</a>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div class="col-lg-2">
-          <h6 class="text-warning mb-4 fw-bold">NAVİGASYON</h6>
-          <ul class="list-unstyled">
-            <li class="mb-2"><a href="kurumsal.html" class="footer-link">Kurumsal</a></li>
-            <li class="mb-2"><a href="tesisler.html" class="footer-link">Tesislerimiz</a></li>
-            <li class="mb-2"><a href="iletisim.html" class="footer-link">İletişim</a></li>
-          </ul>
-        </div>
+        <div class="footer-pro-bottom">
+          <div class="footer-pro-bottom-wrap">
+            <p>© 2026 Ergünler Yol Yapı Ltd. Şti. Tüm hakları saklıdır.</p>
 
-        <div class="col-lg-6 text-lg-end">
-          <h6 class="text-warning mb-4 fw-bold text-lg-end">İLETİŞİM</h6>
-          <p class="small mb-1"><i class="bi bi-geo-alt text-warning me-2"></i> Aziziye / Erzurum</p>
-          <p class="small mb-4"><i class="bi bi-telephone text-warning me-2"></i> +90 549 250 3368</p>
-          <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+            <div class="footer-pro-bottom-links">
+              <a href="kurumsal.html">Kurumsal</a>
+              <a href="haberler.html">Haberler</a>
+              <a href="iletisim.html">İletişim</a>
+            </div>
+          </div>
         </div>
       </div>
-
-      <hr class="mt-5 opacity-10">
-      <p class="text-center small opacity-50 mb-0">© 2026 Ergünler Yol Yapı Ltd. Şti.</p>
     </div>
   </footer>
 

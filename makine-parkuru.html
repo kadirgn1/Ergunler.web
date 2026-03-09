@@ -4,204 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Araç & Makine Parkuru | Ergünler Yol Yapı Ltd. Şti.</title>
-  <meta name="description" content="Ergünler Yol Yapı: Üretimden sahaya entegre ekipman ve araç parkuru. Yol, asfalt, lojistik ve enerji destek grupları." />
+  <meta
+    name="description"
+    content="Ergünler Yol Yapı: Üretimden sahaya entegre ekipman ve araç parkuru. Yol, asfalt, lojistik ve enerji destek grupları."
+  />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <link rel="stylesheet" href="css.css?v=20260305-premium">
-
-  <style>
-    /* =========================
-       MAKİNE PARKURU • PREMIUM UI
-    ========================= */
-
-    /* Header görseli (istersen görseli değiştir) */
-    .header-parkur{
-      background-image:
-        linear-gradient(rgba(26,37,47,.85), rgba(26,37,47,.85)),
-        url("images/tesisler.jpg"); /* istersen: images/makine-parkuru.jpg */
-    }
-
-    /* Filtre kutusu */
-    .filter-wrap{
-      background:#fff;
-      border:1px solid rgba(0,0,0,.06);
-      border-radius: 18px;
-      padding: 22px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.06);
-    }
-    .filter-head{
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap:wrap;
-    }
-    .filter-tools{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-
-    /* Search pill */
-    .search-pill{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      border:1px solid rgba(0,0,0,.10);
-      background:#fff;
-      min-width: 320px;
-    }
-    .search-pill i{ color: var(--ana-lacivert); opacity:.7; }
-    .search-pill input{
-      border:none;
-      outline:none;
-      width:100%;
-      font-weight:600;
-      font-size:.95rem;
-      color: var(--ana-lacivert);
-    }
-    .search-pill input::placeholder{ color: rgba(26,37,47,.55); }
-
-    /* Result pill */
-    .result-pill{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:10px 14px;
-      border-radius:999px;
-      background: rgba(243,156,18,0.10);
-      border:1px solid rgba(243,156,18,0.25);
-      color: var(--ana-lacivert);
-      font-weight:800;
-      white-space: nowrap;
-    }
-
-    /* Filter active rengi */
-    .filter-btn.active{
-      background: var(--ana-lacivert) !important;
-      border-color: var(--ana-lacivert) !important;
-      color: #fff !important;
-    }
-
-    /* Kartlar */
-    .machine-card{
-      border: 1px solid rgba(15, 23, 30, 0.06);
-      background: #ffffff;
-      border-radius: 20px;
-      padding: 28px;
-      transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-      position: relative;
-      overflow: hidden;
-      height: 100%;
-      cursor: pointer;
-      outline: none;
-    }
-    .machine-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 22px 50px rgba(15, 23, 30, 0.12);
-      border-color: var(--sirket-turuncu);
-    }
-    .machine-card:focus-visible{
-      box-shadow: 0 0 0 4px rgba(243,156,18,.25), 0 22px 50px rgba(15, 23, 30, 0.12);
-      border-color: var(--sirket-turuncu);
-    }
-    .machine-card .machine-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom:12px;
-      gap:10px;
-    }
-
-    .icon-wrapper {
-      width: 50px; height: 50px;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--ana-lacivert);
-      border-radius: 12px;
-      color: var(--sirket-turuncu);
-      font-size: 1.4rem;
-      margin-bottom: 0;
-      flex: 0 0 auto;
-    }
-    .spec-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-      margin-top: 15px; border-top: 1px dashed rgba(0,0,0,0.1);
-      padding-top: 15px;
-    }
-    .spec-pill {
-      background: #f8f9fa; padding: 10px; border-radius: 10px;
-      text-align: center;
-    }
-    .spec-label {
-      display: block;
-      font-size: 0.65rem;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: .04em;
-    }
-    .spec-data { font-weight: 800; color: var(--ana-lacivert); font-size: 0.9rem; }
-
-    .card-bg-icon {
-      position: absolute; bottom: -15px; right: -15px;
-      font-size: 100px; color: rgba(15, 23, 30, 0.025);
-      pointer-events: none;
-    }
-
-    /* CTA */
-    .parkur-cta{
-      padding: 70px 0;
-      background: #0f1b23;
-    }
-
-    /* Modal image */
-    .machine-modal-img{
-      width:100%;
-      border-radius: 16px;
-      background: rgba(0,0,0,.04);
-      box-shadow: 0 10px 25px rgba(0,0,0,.10);
-      aspect-ratio: 4 / 3;
-      background-size: cover;
-      background-position: center;
-    }
-    .machine-modal-img.is-empty{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
-      background: rgba(0,0,0,.04);
-    }
-    .machine-modal-img.is-empty::after{
-      content:"Görsel eklenecek";
-      font-weight:800;
-      color: rgba(26,37,47,.55);
-    }
-
-    /* hidden attribute destek */
-    .machine-item[hidden]{ display:none !important; }
-
-    /* Fade animasyon */
-    .machine-card.fade-in{ animation: fadeIn 0.45s ease forwards; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 576px){
-      .search-pill{ min-width: 100%; }
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+  />
+  <link rel="stylesheet" href="css.css?v=20260305-premium" />
 </head>
 
 <body>
-
   <div id="preloader">
     <div class="loader-spinner"></div>
     <div class="loader-text">ERGÜNLER</div>
@@ -210,29 +35,43 @@
   <nav class="navbar navbar-expand-lg sticky-top">
     <div class="container">
       <a class="navbar-brand brand" href="index.html">
-        <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon">
+        <img src="images/ergunler-icon.png" alt="Ergünler" class="brand-icon" />
         <span class="brand-text">
           <span class="brand-name">ERGÜNLER</span>
           <span class="brand-sub">inşaat • asfalt • yol • yapı</span>
         </span>
       </a>
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Menü">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-label="Menü"
+      >
         <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto align-items-center">
-          <li class="nav-item"><a class="nav-link" href="index.html">ANA SAYFA</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">ANA SAYFA</a>
+          </li>
+
           <li class="nav-item dropdown nav-hover">
-            <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">KURUMSAL</a>
+            <a class="nav-link dropdown-toggle active" href="#" data-bs-toggle="dropdown">
+              KURUMSAL
+            </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="kurumsal.html">Hakkımızda</a></li>
-              <li><a class="dropdown-item active" href="makine-parkuru.html">Araç & Makine Parkuru</a></li>
+              <li><a class="dropdown-item active" href="makine-parkuru.html">Araç &amp; Makine Parkuru</a></li>
             </ul>
           </li>
+
           <li class="nav-item dropdown nav-hover">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">ÜRÜNLER</a>
+            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+              ÜRÜNLER
+            </a>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="gri-kalsit.html">Gri Kalsit</a></li>
               <li><a class="dropdown-item" href="beyaz-kalsit.html">Beyaz Kalsit</a></li>
@@ -240,10 +79,22 @@
               <li><a class="dropdown-item" href="asfalt.html">Asfalt</a></li>
             </ul>
           </li>
-          <li class="nav-item"><a class="nav-link" href="tesisler.html">TESİSLER</a></li>
-          <li class="nav-item"><a class="nav-link" href="haberler.html">HABERLER</a></li>
-          <li class="nav-item"><a class="nav-link" href="iletisim.html">İLETİŞİM</a></li>
-          <li class="nav-item ms-lg-3"><a href="iletisim.html" class="btn-teklif">TEKLİF AL</a></li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="tesisler.html">TESİSLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="haberler.html">HABERLER</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="iletisim.html">İLETİŞİM</a>
+          </li>
+
+          <li class="nav-item ms-lg-3">
+            <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -251,13 +102,12 @@
 
   <header class="page-header header-parkur">
     <div class="container text-center">
-      <h1 class="mb-3">Ekipman & Araç Parkuru</h1>
+      <h1 class="mb-3">Ekipman &amp; Araç Parkuru</h1>
       <p class="lead opacity-75 fs-4">Üretimden Sahaya Entegre Güç • Hız • Güven</p>
     </div>
   </header>
 
   <main class="container py-5">
-
     <div class="stats-container mb-5">
       <div class="stats-card">
         <div class="row text-center g-4">
@@ -265,14 +115,17 @@
             <span class="stat-val" data-target="35" data-suffix="+">0</span>
             <span class="stat-label">Üretim Tesisi Ekipmanı</span>
           </div>
+
           <div class="col-md-3 border-md-start border-md-end">
             <span class="stat-val" data-target="21" data-suffix="+">0</span>
-            <span class="stat-label">Yol & Asfalt Grubu</span>
+            <span class="stat-label">Yol &amp; Asfalt Grubu</span>
           </div>
+
           <div class="col-md-3 border-md-end">
             <span class="stat-val" data-target="43" data-suffix="+">0</span>
-            <span class="stat-label">Lojistik & Mikser Filosu</span>
+            <span class="stat-label">Lojistik &amp; Mikser Filosu</span>
           </div>
+
           <div class="col-md-3">
             <span class="stat-val" data-target="100" data-suffix="%">0</span>
             <span class="stat-label">Öz Kaynak / Öz Mal</span>
@@ -281,7 +134,6 @@
       </div>
     </div>
 
-    <!-- Filtre / Arama / Sonuç -->
     <section class="mb-5">
       <div class="filter-wrap">
         <div class="filter-head">
@@ -293,7 +145,12 @@
           <div class="filter-tools">
             <div class="search-pill" role="search">
               <i class="bi bi-search"></i>
-              <input id="machineSearch" type="search" placeholder="Ekipman ara (örn: silindir, plent, mikronize)" autocomplete="off" />
+              <input
+                id="machineSearch"
+                type="search"
+                placeholder="Ekipman ara (örn: silindir, plent, mikronize)"
+                autocomplete="off"
+              />
             </div>
 
             <button id="machineClear" type="button" class="btn btn-outline-dark rounded-pill fw-bold px-4">
@@ -309,16 +166,15 @@
 
         <div class="d-flex flex-wrap gap-2 justify-content-center mt-4">
           <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn active" data-filter="all" data-label="TÜMÜ">TÜMÜ</button>
-          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="hafriyat" data-label="YOL & HAFRİYAT">YOL & HAFRİYAT</button>
-          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="uretim" data-label="ÜRETİM & TESİS">ÜRETİM & TESİS</button>
-          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="lojistik" data-label="LOJİSTİK & SEVKİYAT">LOJİSTİK & SEVKİYAT</button>
-          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="destek" data-label="ENERJİ & DESTEK">ENERJİ & DESTEK</button>
+          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="hafriyat" data-label="YOL & HAFRİYAT">YOL &amp; HAFRİYAT</button>
+          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="uretim" data-label="ÜRETİM & TESİS">ÜRETİM &amp; TESİS</button>
+          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="lojistik" data-label="LOJİSTİK & SEVKİYAT">LOJİSTİK &amp; SEVKİYAT</button>
+          <button class="btn btn-outline-dark rounded-pill fw-bold px-4 filter-btn" data-filter="destek" data-label="ENERJİ & DESTEK">ENERJİ &amp; DESTEK</button>
         </div>
       </div>
     </section>
 
     <div class="row g-4" id="machineGrid">
-
       <div class="col-md-6 col-lg-4 machine-item" data-cat="hafriyat">
         <div class="machine-card" role="button" tabindex="0" data-bs-toggle="modal" data-bs-target="#machineModal">
           <i class="bi bi-tools card-bg-icon"></i>
@@ -326,7 +182,7 @@
             <div class="icon-wrapper"><i class="bi bi-gear-wide-connected"></i></div>
             <span class="badge text-bg-light border">Hafriyat</span>
           </div>
-          <h4 class="mb-2">Ekskavatör & Loder</h4>
+          <h4 class="mb-2">Ekskavatör &amp; Loder</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Ekskavatör</span><span class="spec-data">2 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Yükleyici</span><span class="spec-data">5 Adet</span></div>
@@ -341,7 +197,7 @@
             <div class="icon-wrapper"><i class="bi bi-speedometer2"></i></div>
             <span class="badge text-bg-light border">Hafriyat</span>
           </div>
-          <h4 class="mb-2">Yol & Zemin Hazırlık</h4>
+          <h4 class="mb-2">Yol &amp; Zemin Hazırlık</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Greyder</span><span class="spec-data">1 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Silindir</span><span class="spec-data">7 Adet</span></div>
@@ -356,7 +212,7 @@
             <div class="icon-wrapper"><i class="bi bi-grid-3x3-gap"></i></div>
             <span class="badge text-bg-light border">Hafriyat</span>
           </div>
-          <h4 class="mb-2">Stabilizasyon & Serim</h4>
+          <h4 class="mb-2">Stabilizasyon &amp; Serim</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Mekanik Plent</span><span class="spec-data">1 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Mıcır Serici</span><span class="spec-data">1 Adet</span></div>
@@ -371,7 +227,7 @@
             <div class="icon-wrapper"><i class="bi bi-building-gear"></i></div>
             <span class="badge text-bg-light border">Üretim</span>
           </div>
-          <h4 class="mb-2">Asfalt Üretim & Serim</h4>
+          <h4 class="mb-2">Asfalt Üretim &amp; Serim</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Asfalt Plenti</span><span class="spec-data">2 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Finişer</span><span class="spec-data">3 Adet</span></div>
@@ -422,7 +278,7 @@
             <div class="icon-wrapper"><i class="bi bi-truck"></i></div>
             <span class="badge text-bg-light border">Lojistik</span>
           </div>
-          <h4 class="mb-2">Taşıma & Nakliye Filosu</h4>
+          <h4 class="mb-2">Taşıma &amp; Nakliye Filosu</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Kamyon</span><span class="spec-data">17 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Damperli Kamyon</span><span class="spec-data">6 Adet</span></div>
@@ -439,7 +295,7 @@
             <div class="icon-wrapper"><i class="bi bi-droplet-fill"></i></div>
             <span class="badge text-bg-light border">Lojistik</span>
           </div>
-          <h4 class="mb-2">Hazır Beton & Mikser</h4>
+          <h4 class="mb-2">Hazır Beton &amp; Mikser</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Transmikser</span><span class="spec-data">11 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Beton Pompası</span><span class="spec-data">2 Adet</span></div>
@@ -455,7 +311,7 @@
             <div class="icon-wrapper"><i class="bi bi-cpu"></i></div>
             <span class="badge text-bg-light border">Destek</span>
           </div>
-          <h4 class="mb-2">Yardımcı Güç & Enerji</h4>
+          <h4 class="mb-2">Yardımcı Güç &amp; Enerji</h4>
           <div class="spec-grid">
             <div class="spec-pill"><span class="spec-label">Trafo Sistemleri</span><span class="spec-data">4 Adet</span></div>
             <div class="spec-pill"><span class="spec-label">Jeneratör</span><span class="spec-data">3 Adet</span></div>
@@ -464,19 +320,17 @@
           </div>
         </div>
       </div>
-
     </div>
   </main>
 
   <section class="parkur-cta">
     <div class="container text-center py-4">
-      <h2 class="text-white mb-3">Teknik Detay & Operasyonel Kapasite</h2>
+      <h2 class="text-white mb-3">Teknik Detay &amp; Operasyonel Kapasite</h2>
       <p class="text-white-50 mb-4 fs-5">Tüm projelerimizde sıfır dışa bağımlılık ve yüksek hızla çalışıyoruz.</p>
       <a href="iletisim.html" class="btn-teklif px-5 py-3">TEKLİF ALIN</a>
     </div>
   </section>
 
-  <!-- Detay Modal -->
   <div class="modal fade" id="machineModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
       <div class="modal-content rounded-4">
@@ -490,6 +344,7 @@
               <div class="machine-modal-img is-empty" id="machineModalImg"></div>
               <p class="small text-muted mt-2 mb-0">*Görsel eklediğinde otomatik gösterilir.</p>
             </div>
+
             <div class="col-md-7">
               <div class="table-responsive custom-table">
                 <table class="table mb-0">
@@ -514,250 +369,120 @@
     </div>
   </div>
 
-  <footer class="footer mt-0 pt-0">
-    <div class="trust-strip">
+  <footer class="footer-pro mt-5">
+    <div class="footer-pro-top">
       <div class="container">
         <div class="row text-center g-3">
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-check-circle-fill"></i> ISO 9001 Onaylı</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-shield-fill-check"></i> TSE Standartları</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-globe"></i> Çevreye Duyarlı</div></div>
-          <div class="col-md-3 col-6"><div class="trust-item"><i class="bi bi-gear-fill"></i> %100 Yerli Sermaye</div></div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-check-circle-fill"></i>
+              <span>ISO 9001 Onaylı</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-shield-fill-check"></i>
+              <span>TSE Standartları</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-globe"></i>
+              <span>Çevreye Duyarlı Üretim</span>
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <div class="footer-pro-trust">
+              <i class="bi bi-gear-fill"></i>
+              <span>%100 Yerli Sermaye</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="container py-5">
-      <div class="row g-5">
-        <div class="col-lg-4 text-center text-lg-start">
-          <img src="images/logo.jpg" alt="Ergünler" class="footer-logo mb-4">
-          <p class="small opacity-50">Erzurum merkezli firmamız, modern filosu ve yüksek kapasiteli tesisleri ile Türkiye'nin altyapısına değer katar.</p>
+    <div class="footer-pro-main">
+      <div class="container">
+        <div class="row g-5 align-items-start">
+          <div class="col-lg-5">
+            <div class="footer-pro-brand">
+              <img src="images/logo.jpg" alt="Ergünler Yol Yapı" class="footer-pro-logo" />
+
+              <p class="footer-pro-text">
+                Ergünler Yol Yapı Ltd. Şti.; yol, asfalt, agrega ve mikronize kalsit alanlarında üretim gücü,
+                saha deneyimi ve lojistik organizasyonu ile güvenilir çözümler sunan Erzurum merkezli bir yapı firmasıdır.
+              </p>
+
+              <p class="footer-pro-text mb-0">
+                Modern tesis altyapımız, makine parkurumuz ve planlı iş yapış anlayışımızla; projelere kaliteli,
+                sürdürülebilir ve zamanında hizmet sağlamayı hedefliyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="footer-pro-col">
+              <h6 class="footer-pro-title">Hızlı Erişim</h6>
+              <ul class="footer-pro-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li><a href="kurumsal.html">Kurumsal</a></li>
+                <li><a href="tesisler.html">Tesislerimiz</a></li>
+                <li><a href="makine-parkuru.html">Makine Parkuru</a></li>
+                <li><a href="haberler.html">Haberler</a></li>
+                <li><a href="iletisim.html">İletişim</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-pro-contact text-lg-end">
+              <h6 class="footer-pro-title">İletişim</h6>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-geo-alt"></i>
+                <span>Aziziye / Erzurum</span>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-telephone"></i>
+                <a href="tel:+905492503368">+90 549 250 3368</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-envelope"></i>
+                <a href="mailto:info@ergunleryolyapi.com">info@ergunleryolyapi.com</a>
+              </div>
+
+              <div class="footer-pro-contact-item justify-content-lg-end">
+                <i class="bi bi-whatsapp"></i>
+                <a href="https://wa.me/905492503368" target="_blank" rel="noopener noreferrer">
+                  WhatsApp ile İletişim
+                </a>
+              </div>
+
+              <div class="footer-pro-btn-wrap justify-content-lg-end">
+                <a href="iletisim.html" class="footer-pro-btn">TEKLİF AL</a>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-lg-2">
-          <h6 class="text-warning mb-4 fw-bold">MENÜ</h6>
-          <ul class="list-unstyled small">
-            <li class="mb-2"><a href="kurumsal.html" class="footer-link">Kurumsal</a></li>
-            <li class="mb-2"><a href="tesisler.html" class="footer-link">Tesislerimiz</a></li>
-            <li class="mb-2"><a href="iletisim.html" class="footer-link">İletişim</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-6 text-lg-end">
-          <h6 class="text-warning mb-4 fw-bold">İLETİŞİM</h6>
-          <p class="small mb-1"><i class="bi bi-geo-alt text-warning me-2"></i> Aziziye / Erzurum</p>
-          <p class="small mb-4"><i class="bi bi-telephone text-warning me-2"></i> +90 549 250 3368</p>
-          <a href="iletisim.html" class="btn-teklif">TEKLİF AL</a>
+
+        <div class="footer-pro-bottom">
+          <div class="footer-pro-bottom-wrap">
+            <p>© 2026 Ergünler Yol Yapı Ltd. Şti. Tüm hakları saklıdır.</p>
+
+            <div class="footer-pro-bottom-links">
+              <a href="kurumsal.html">Kurumsal</a>
+              <a href="haberler.html">Haberler</a>
+              <a href="iletisim.html">İletişim</a>
+            </div>
+          </div>
         </div>
       </div>
-      <hr class="mt-5 opacity-10">
-      <p class="text-center small opacity-50 mb-0">© 2026 Ergünler Yol Yapı Ltd. Şti.</p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js?v=20260305-premium"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const qs = (s, r=document) => r.querySelector(s);
-      const qsa = (s, r=document) => Array.from(r.querySelectorAll(s));
-
-      const grid = qs('#machineGrid');
-      if (!grid) return;
-
-      const btns = qsa('.filter-btn');
-      const items = qsa('.machine-item');
-      const search = qs('#machineSearch');
-      const clearBtn = qs('#machineClear');
-      const resultEl = qs('#machineResult');
-
-      const prefersReduced = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
-
-      const escapeHTML = (str) => {
-        if (str == null) return '';
-        return String(str)
-          .replaceAll('&', '&amp;')
-          .replaceAll('<', '&lt;')
-          .replaceAll('>', '&gt;')
-          .replaceAll('"', '&quot;')
-          .replaceAll("'", '&#039;');
-      };
-
-      const normTR = (s) =>
-        (s ?? '')
-          .toString()
-          .toLocaleLowerCase('tr-TR')
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
-
-      const itemText = (item) => {
-        const title = qs('h4', item)?.textContent || '';
-        const specs = qsa('.spec-pill', item).map(p => p.textContent).join(' ');
-        const cat = item.getAttribute('data-cat') || '';
-        return normTR(`${title} ${specs} ${cat}`);
-      };
-
-      let activeFilter = 'all';
-      let query = '';
-
-      const updateButtonCounts = () => {
-        const counts = { all: 0, hafriyat: 0, uretim: 0, lojistik: 0, destek: 0 };
-
-        items.forEach(item => {
-          const okSearch = !query || itemText(item).includes(query);
-          if (!okSearch) return;
-
-          const cat = item.getAttribute('data-cat') || '';
-          counts.all++;
-          if (counts[cat] != null) counts[cat]++;
-        });
-
-        btns.forEach(btn => {
-          const f = btn.getAttribute('data-filter') || 'all';
-          const base = btn.getAttribute('data-label') || btn.textContent.trim();
-          btn.setAttribute('data-label', base.replace(/\s*\(\d+\)\s*$/,''));
-          btn.textContent = `${btn.getAttribute('data-label')} (${counts[f] ?? 0})`;
-        });
-      };
-
-      const renderEmptyState = (show) => {
-        const id = 'machineEmpty';
-        let el = qs('#' + id);
-        if (show) {
-          if (!el) {
-            el = document.createElement('div');
-            el.id = id;
-            el.className = 'col-12';
-            el.innerHTML = `
-              <div class="content-card text-center p-4">
-                <div class="fw-bold mb-1">Sonuç bulunamadı</div>
-                <div class="text-muted">Filtreyi değiştir veya aramayı temizle.</div>
-              </div>
-            `;
-            grid.appendChild(el);
-          }
-        } else {
-          if (el) el.remove();
-        }
-      };
-
-      const applyFilters = () => {
-        let shown = 0;
-
-        items.forEach(item => {
-          const cat = item.getAttribute('data-cat');
-          const okFilter = (activeFilter === 'all') || (cat === activeFilter);
-          const okSearch = !query || itemText(item).includes(query);
-
-          const show = okFilter && okSearch;
-          item.hidden = !show;
-
-          if (show) {
-            shown++;
-            const card = qs('.machine-card', item);
-            if (card && !prefersReduced) {
-              card.classList.remove('fade-in');
-              void card.offsetWidth;
-              card.classList.add('fade-in');
-            }
-          }
-        });
-
-        if (resultEl) resultEl.textContent = `${shown} ekipman grubu`;
-        renderEmptyState(shown === 0);
-        updateButtonCounts();
-      };
-
-      // Filter buttons
-      btns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          btns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          activeFilter = btn.getAttribute('data-filter') || 'all';
-          applyFilters();
-        });
-      });
-
-      // Search
-      if (search) {
-        search.addEventListener('input', () => {
-          query = normTR(search.value).trim();
-          applyFilters();
-        });
-      }
-
-      // Clear
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          activeFilter = 'all';
-          query = '';
-          if (search) search.value = '';
-
-          btns.forEach(b => b.classList.remove('active'));
-          const allBtn = btns.find(b => (b.getAttribute('data-filter') || '') === 'all');
-          if (allBtn) allBtn.classList.add('active');
-
-          applyFilters();
-          if (search) search.focus();
-        });
-      }
-
-      // Modal fill
-      const modalTitle = qs('#machineModalTitle');
-      const modalBody = qs('#machineModalBody');
-      const modalImg = qs('#machineModalImg');
-
-      const fillModalFromItem = (item) => {
-        if (!item) return;
-        const card = qs('.machine-card', item);
-        if (!card) return;
-
-        const title = qs('h4', card)?.textContent?.trim() || 'Ekipman Detayı';
-        if (modalTitle) modalTitle.textContent = title;
-
-        // Specs -> rows
-        const pills = qsa('.spec-pill', card);
-        const rows = pills.map(p => {
-          const label = qs('.spec-label', p)?.textContent?.trim() || '';
-          const data = qs('.spec-data', p)?.textContent?.trim() || '';
-          return `<tr><td>${escapeHTML(label)}</td><td class="fw-bold">${escapeHTML(data)}</td></tr>`;
-        }).join('');
-
-        if (modalBody) {
-          modalBody.innerHTML = rows || `<tr><td colspan="2" class="text-muted">Detay eklenmedi.</td></tr>`;
-        }
-
-        // Optional image: data-img="images/....jpg"
-        const imgUrl = card.getAttribute('data-img') || item.getAttribute('data-img') || '';
-        if (modalImg) {
-          if (imgUrl) {
-            modalImg.style.backgroundImage = `url("${String(imgUrl).replaceAll('"','\\"')}")`;
-            modalImg.classList.remove('is-empty');
-          } else {
-            modalImg.style.backgroundImage = 'none';
-            modalImg.classList.add('is-empty');
-          }
-        }
-      };
-
-      // Cards click/keyboard
-      qsa('.machine-card').forEach(card => {
-        const handler = () => {
-          const item = card.closest('.machine-item');
-          fillModalFromItem(item);
-        };
-        card.addEventListener('click', handler);
-        card.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            card.click();
-          }
-        });
-      });
-
-      // Init
-      updateButtonCounts();
-      applyFilters();
-    });
-  </script>
-
 </body>
 </html>
