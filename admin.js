@@ -1,41 +1,82 @@
 (() => {
   'use strict';
 
-  /* ---------------------------
-     Helpers
-  --------------------------- */
-  const qs = (selector, root = document) => root.querySelector(selector);
+  /* =========================================================
+     ERGÜNLER ADMIN JS
+     - Haber CRUD
+     - İçerik formları yönetimi
+     - Yükleniyor durumları
+     - Form doğrulama
+     - Sekme hafızası
+     - Değişiklik takibi
+     - İstatistik güncelleme
+     - Daha profesyonel bildirim sistemi
+  ========================================================= */
 
-  const normalizeText = (value) => String(value ?? '').trim();
+  const qs = (selector, scope = document) => scope.querySelector(selector);
+  const qsa = (selector, scope = document) => Array.from(scope.querySelectorAll(selector));
 
-  const slugify = (text) => {
-    return String(text ?? '')
-      .toLowerCase()
-      .trim()
-      .replace(/ğ/g, 'g')
-      .replace(/ü/g, 'u')
-      .replace(/ş/g, 's')
-      .replace(/ı/g, 'i')
-      .replace(/ö/g, 'o')
-      .replace(/ç/g, 'c')
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .replace(/^-+|-+$/g, '');
+  const endpoints = {
+    getNews: 'get_news.php',
+    saveNews: 'save_news.php',
+    deleteNews: 'delete_news.php',
+    getContent: 'get_content.php',
+    saveContent: 'save_content.php'
   };
 
-  const safeParse = (value, fallback) => {
-    try {
-      return value ? JSON.parse(value) : fallback;
-    } catch (error) {
-      console.error('JSON parse hatası:', error);
-      return fallback;
+  const STORAGE_KEYS = {
+    activeTab: 'ergunler_admin_active_tab',
+    draftPrefix: 'ergunler_admin_draft_'
+  };
+
+  const state = {
+    newsItems: [],
+    dirtyForms: new Set(),
+    loading: false
+  };
+
+  const formConfigs = [
+    {
+      formId: 'corporateForm',
+      loadBtnId: 'loadCorporateBtn',
+      group: 'corporate',
+      label: 'Kurumsal'
+    },
+    {
+      formId: 'facilitiesForm',
+      loadBtnId: 'loadFacilitiesBtn',
+      group: 'facilities',
+      label: 'Tesisler'
+    },
+    {
+      formId: 'whiteCalciteForm',
+      loadBtnId: 'loadWhiteCalciteBtn',
+      group: 'white_calcite',
+      label: 'Beyaz Kalsit'
+    },
+    {
+      formId: 'facilitiesAdvancedForm',
+      loadBtnId: 'loadFacilitiesAdvancedBtn',
+      group: 'facilities_advanced',
+      label: 'Gelişmiş Tesisler'
     }
-  };
+  ];
+
+  const newsForm = qs('#newsForm');
+  const newsIdHidden = qs('#newsIdHidden');
+  const newsTitle = qs('#newsTitle');
+  const newsCategory = qs('#newsCategory');
+  const newsDate = qs('#newsDate');
+  const newsImage = qs('#newsImage');
+  const newsExcerpt = qs('#newsExcerpt');
+  const newsContent = qs('#newsContent');
+  const resetFormBtn = qs('#resetFormBtn');
+  const newsTableBody = qs('#adminNewsTableBody');
+  const newsCount = qs('#newsCount');
+  const newsCountBadge = qs('#newsCountBadge');
 
   const escapeHTML = (value) => {
     if (value == null) return '';
-
     return String(value)
       .replaceAll('&', '&amp;')
       .replaceAll('<', '&lt;')
@@ -44,465 +85,656 @@
       .replaceAll("'", '&#039;');
   };
 
-  const isSafeImageUrl = (url) => {
-    if (!url) return true;
+  const formatDateTR = (value) => {
+    if (!value) return '';
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
 
-    const value = String(url).trim().toLowerCase();
-    return (
-      value.startsWith('http://') ||
-      value.startsWith('https://') ||
-      value.startsWith('./') ||
-      value.startsWith('../') ||
-      value.startsWith('images/') ||
-      value.startsWith('/images/')
-    );
+    return new Intl.DateTimeFormat('tr-TR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    }).format(date);
   };
 
-  const showMessage = (text) => {
-    window.alert(text);
-  };
-
-  const getMergedStorageData = (storageKey, defaults) => {
-    const parsed = safeParse(localStorage.getItem(storageKey), null);
-    return parsed ? { ...defaults, ...parsed } : { ...defaults };
-  };
-
-  const fillFieldsFromData = (defaults, data, fieldMap = {}) => {
-    Object.keys(defaults).forEach((storageKey) => {
-      const fieldId = fieldMap[storageKey] || storageKey;
-      const element = qs(`#${fieldId}`);
-
-      if (element) {
-        element.value = data[storageKey] || '';
-      }
-    });
-  };
-
-  const collectFields = (defaults, fieldMap = {}) => {
-    const payload = {};
-
-    Object.keys(defaults).forEach((storageKey) => {
-      const fieldId = fieldMap[storageKey] || storageKey;
-      const element = qs(`#${fieldId}`);
-      payload[storageKey] = element ? normalizeText(element.value) : '';
-    });
-
-    return payload;
-  };
-
-  const bindLoadButton = (buttonSelector, handler) => {
-    const button = qs(buttonSelector);
-    if (button) {
-      button.addEventListener('click', handler);
+  const safeJSONParse = (raw, fallback = null) => {
+    try {
+      return raw ? JSON.parse(raw) : fallback;
+    } catch {
+      return fallback;
     }
   };
 
-  const setupSimpleContentForm = ({
-    formSelector,
-    storageKey,
-    defaults,
-    loadButtonSelector,
-    successMessage,
-    fieldMap = {}
-  }) => {
-    const form = qs(formSelector);
-    if (!form) return;
+  const showAlert = (message, type = 'success') => {
+    const rootId = 'adminToastRoot';
+    let root = qs(`#${rootId}`);
 
-    const fillForm = () => {
-      const data = getMergedStorageData(storageKey, defaults);
-      fillFieldsFromData(defaults, data, fieldMap);
+    if (!root) {
+      root = document.createElement('div');
+      root.id = rootId;
+      root.className = 'admin-toast-root';
+      document.body.appendChild(root);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `admin-toast is-${type === 'success' ? 'success' : type === 'warning' ? 'warning' : 'error'}`;
+
+    toast.innerHTML = `
+      <div class="admin-toast-icon">
+        <i class="bi ${
+          type === 'success'
+            ? 'bi-check-circle-fill'
+            : type === 'warning'
+            ? 'bi-exclamation-triangle-fill'
+            : 'bi-x-circle-fill'
+        }"></i>
+      </div>
+      <div class="admin-toast-body">
+        <div class="admin-toast-title">${
+          type === 'success' ? 'Başarılı' : type === 'warning' ? 'Uyarı' : 'Hata'
+        }</div>
+        <div class="admin-toast-text">${escapeHTML(message)}</div>
+      </div>
+      <button type="button" class="admin-toast-close" aria-label="Kapat">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    `;
+
+    root.appendChild(toast);
+
+    const closeToast = () => {
+      toast.classList.add('is-leaving');
+      window.setTimeout(() => toast.remove(), 220);
     };
 
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const payload = collectFields(defaults, fieldMap);
-      localStorage.setItem(storageKey, JSON.stringify(payload));
-      showMessage(successMessage);
-    });
-
-    bindLoadButton(loadButtonSelector, fillForm);
-    fillForm();
+    qs('.admin-toast-close', toast)?.addEventListener('click', closeToast);
+    window.setTimeout(closeToast, 3200);
   };
 
-  /* ---------------------------
-     1) News Management
-  --------------------------- */
-  (() => {
-    const STORAGE_KEY = 'ergunler_admin_news';
+  const setButtonLoading = (button, isLoading, loadingText = 'İşleniyor...') => {
+    if (!button) return;
 
-    const form = qs('#newsForm');
-    if (!form) return;
-
-    const newsIdHidden = qs('#newsIdHidden');
-    const newsTitle = qs('#newsTitle');
-    const newsCategory = qs('#newsCategory');
-    const newsDate = qs('#newsDate');
-    const newsImage = qs('#newsImage');
-    const newsExcerpt = qs('#newsExcerpt');
-    const newsContent = qs('#newsContent');
-    const resetFormBtn = qs('#resetFormBtn');
-    const tableBody = qs('#adminNewsTableBody');
-    const newsCount = qs('#newsCount');
-
-    const getStoredNews = () => {
-      const parsed = safeParse(localStorage.getItem(STORAGE_KEY), []);
-      return Array.isArray(parsed) ? parsed : [];
-    };
-
-    const saveStoredNews = (items) => {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    };
-
-    const sortNews = (items) => {
-      return [...items].sort((a, b) => new Date(b.date) - new Date(a.date));
-    };
-
-    const generateUniqueId = (baseSlug, items, currentId = '') => {
-      const cleanBase = slugify(baseSlug) || `haber-${Date.now()}`;
-      let candidate = cleanBase;
-      let counter = 2;
-
-      while (items.some((item) => item.id === candidate && item.id !== currentId)) {
-        candidate = `${cleanBase}-${counter}`;
-        counter += 1;
+    if (isLoading) {
+      if (!button.dataset.originalHtml) {
+        button.dataset.originalHtml = button.innerHTML;
       }
 
-      return candidate;
+      button.disabled = true;
+      button.innerHTML = `
+        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        ${loadingText}
+      `;
+    } else {
+      button.disabled = false;
+      if (button.dataset.originalHtml) {
+        button.innerHTML = button.dataset.originalHtml;
+      }
+    }
+  };
+
+  const apiJson = async (url, options = {}) => {
+    const fetchOptions = {
+      headers: {
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      },
+      ...options
     };
 
-    const clearForm = () => {
+    const response = await fetch(url, fetchOptions);
+
+    let data = null;
+    try {
+      data = await response.json();
+    } catch {
+      throw new Error('Sunucudan geçerli JSON yanıtı alınamadı.');
+    }
+
+    if (!response.ok || data?.status !== 'success') {
+      throw new Error(data?.message || 'İşlem başarısız.');
+    }
+
+    return data;
+  };
+
+  const updateNewsCounters = () => {
+    const count = Array.isArray(state.newsItems) ? state.newsItems.length : 0;
+
+    if (newsCount) {
+      newsCount.textContent = `${count} kayıt`;
+    }
+
+    if (newsCountBadge) {
+      newsCountBadge.textContent = `${count} haber`;
+    }
+  };
+
+  const getNewsFormPayload = () => ({
+    id: newsIdHidden?.value?.trim() || '',
+    title: newsTitle?.value?.trim() || '',
+    category: newsCategory?.value?.trim() || '',
+    date: newsDate?.value?.trim() || '',
+    image: newsImage?.value?.trim() || '',
+    excerpt: newsExcerpt?.value?.trim() || '',
+    content: newsContent?.value?.trim() || ''
+  });
+
+  const validateNewsPayload = (payload) => {
+    if (!payload.title) return 'Haber başlığı zorunludur.';
+    if (!payload.category) return 'Kategori zorunludur.';
+    if (!payload.date) return 'Tarih zorunludur.';
+    if (!payload.excerpt) return 'Kısa özet zorunludur.';
+    if (payload.title.length < 3) return 'Başlık en az 3 karakter olmalıdır.';
+    if (payload.excerpt.length < 10) return 'Kısa özet daha açıklayıcı olmalıdır.';
+    return '';
+  };
+
+  const clearNewsForm = () => {
+    if (!newsForm) return;
+    newsForm.reset();
+
+    if (newsIdHidden) {
       newsIdHidden.value = '';
-      form.reset();
-    };
+    }
 
-    const fillForm = (item) => {
-      newsIdHidden.value = item.id || '';
-      newsTitle.value = item.title || '';
-      newsCategory.value = item.category || '';
-      newsDate.value = item.date || '';
-      newsImage.value = item.image || '';
-      newsExcerpt.value = item.excerpt || '';
-      newsContent.value = item.content || '';
+    newsForm.classList.remove('is-editing');
+    state.dirtyForms.delete('newsForm');
+    removeDraft('newsForm');
+  };
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+  const fillNewsForm = (item) => {
+    if (!item) return;
 
-    const createPlaceholderThumb = () => {
-      const div = document.createElement('div');
-      div.style.width = '90px';
-      div.style.height = '60px';
-      div.style.background = '#eee';
-      div.style.borderRadius = '10px';
-      return div;
-    };
+    if (newsIdHidden) newsIdHidden.value = item.id ?? '';
+    if (newsTitle) newsTitle.value = item.title ?? '';
+    if (newsCategory) newsCategory.value = item.category ?? '';
+    if (newsDate) newsDate.value = item.date ?? '';
+    if (newsImage) newsImage.value = item.image ?? '';
+    if (newsExcerpt) newsExcerpt.value = item.excerpt ?? '';
+    if (newsContent) newsContent.value = item.content ?? '';
 
-    const createActionButton = (text, className, id) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = className;
-      button.dataset.id = id;
-      button.textContent = text;
-      return button;
-    };
+    newsForm?.classList.add('is-editing');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    const renderEmptyState = () => {
-      const row = document.createElement('tr');
-      const cell = document.createElement('td');
+  const sortNewsItems = (items) => {
+    return [...items].sort((a, b) => {
+      const aDate = new Date(a.date || 0).getTime();
+      const bDate = new Date(b.date || 0).getTime();
 
-      cell.colSpan = 4;
-      cell.className = 'text-center text-muted py-4';
-      cell.textContent = 'Henüz kayıt yok.';
+      if (bDate !== aDate) return bDate - aDate;
+      return Number(b.id || 0) - Number(a.id || 0);
+    });
+  };
 
-      row.appendChild(cell);
-      tableBody.appendChild(row);
-    };
+  const renderNewsTable = (items) => {
+    if (!newsTableBody) return;
 
-    const renderRow = (item) => {
-      const row = document.createElement('tr');
+    if (!Array.isArray(items) || !items.length) {
+      newsTableBody.innerHTML = `
+        <tr>
+          <td colspan="4" class="text-center py-5">
+            <div class="admin-empty-state">
+              <i class="bi bi-inbox"></i>
+              <div class="admin-empty-title">Henüz haber kaydı yok</div>
+              <div class="admin-empty-text">Yeni haber ekleyerek listeyi oluşturmaya başlayabilirsin.</div>
+            </div>
+          </td>
+        </tr>
+      `;
+      state.newsItems = [];
+      updateNewsCounters();
+      return;
+    }
 
-      const imageCell = document.createElement('td');
-      if (item.image && isSafeImageUrl(item.image)) {
-        const img = document.createElement('img');
-        img.src = item.image;
-        img.alt = item.title || 'Haber görseli';
-        img.width = 90;
-        img.height = 60;
-        img.loading = 'lazy';
-        img.className = 'admin-thumb';
-        imageCell.appendChild(img);
-      } else {
-        imageCell.appendChild(createPlaceholderThumb());
-      }
+    state.newsItems = sortNewsItems(items);
 
-      const infoCell = document.createElement('td');
+    newsTableBody.innerHTML = state.newsItems
+      .map((item) => {
+        const isMissingImage = !item.image;
+        const excerpt = (item.excerpt || '').trim();
+        const shortExcerpt = excerpt.length > 120 ? `${excerpt.slice(0, 120)}…` : excerpt;
 
-      const titleDiv = document.createElement('div');
-      titleDiv.className = 'fw-bold';
-      titleDiv.textContent = item.title || '';
+        return `
+          <tr>
+            <td>
+              ${
+                isMissingImage
+                  ? `
+                    <div class="admin-thumb admin-thumb-placeholder">
+                      <i class="bi bi-image"></i>
+                    </div>
+                  `
+                  : `
+                    <img
+                      src="${escapeHTML(item.image)}"
+                      alt="${escapeHTML(item.title)}"
+                      class="admin-thumb"
+                      loading="lazy"
+                    >
+                  `
+              }
+            </td>
 
-      const categoryDiv = document.createElement('div');
-      categoryDiv.className = 'small text-muted';
-      categoryDiv.textContent = item.category || '';
+            <td>
+              <div class="admin-table-title">${escapeHTML(item.title)}</div>
+              <div class="admin-table-meta">
+                <span class="admin-inline-badge">${escapeHTML(item.category || 'Kategori yok')}</span>
+              </div>
+              <div class="admin-table-desc">${escapeHTML(shortExcerpt || 'Özet yok')}</div>
+            </td>
 
-      const idDiv = document.createElement('div');
-      idDiv.className = 'small text-muted';
-      idDiv.textContent = `ID: ${item.id || ''}`;
+            <td>
+              <div class="admin-date-cell">${escapeHTML(formatDateTR(item.date))}</div>
+            </td>
 
-      infoCell.appendChild(titleDiv);
-      infoCell.appendChild(categoryDiv);
-      infoCell.appendChild(idDiv);
+            <td class="admin-actions">
+              <div class="d-flex gap-2 flex-wrap">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-primary"
+                  data-action="edit"
+                  data-id="${escapeHTML(item.id)}"
+                >
+                  <i class="bi bi-pencil-square me-1"></i>Düzenle
+                </button>
 
-      const dateCell = document.createElement('td');
-      dateCell.textContent = item.date || '';
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-danger"
+                  data-action="delete"
+                  data-id="${escapeHTML(item.id)}"
+                >
+                  <i class="bi bi-trash3 me-1"></i>Sil
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      })
+      .join('');
 
-      const actionsCell = document.createElement('td');
-      actionsCell.className = 'admin-actions';
+    updateNewsCounters();
+  };
 
-      const actionWrapper = document.createElement('div');
-      actionWrapper.className = 'd-flex flex-wrap gap-2';
-      actionWrapper.appendChild(
-        createActionButton('Düzenle', 'btn btn-sm btn-outline-primary edit-btn', item.id)
-      );
-      actionWrapper.appendChild(
-        createActionButton('Sil', 'btn btn-sm btn-outline-danger delete-btn', item.id)
-      );
-
-      actionsCell.appendChild(actionWrapper);
-
-      row.appendChild(imageCell);
-      row.appendChild(infoCell);
-      row.appendChild(dateCell);
-      row.appendChild(actionsCell);
-
-      tableBody.appendChild(row);
-    };
-
-    const renderTable = () => {
-      if (!tableBody || !newsCount) return;
-
-      const items = sortNews(getStoredNews());
-      newsCount.textContent = `${items.length} kayıt`;
-      tableBody.innerHTML = '';
-
-      if (!items.length) {
-        renderEmptyState();
-        return;
-      }
-
-      items.forEach(renderRow);
-    };
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-
-      const title = normalizeText(newsTitle.value);
-      const category = normalizeText(newsCategory.value);
-      const date = normalizeText(newsDate.value);
-      const image = normalizeText(newsImage.value);
-      const excerpt = normalizeText(newsExcerpt.value);
-      const content = normalizeText(newsContent.value);
-
-      if (!title || !category || !date || !excerpt) {
-        showMessage('Başlık, kategori, tarih ve özet alanları zorunludur.');
-        return;
-      }
-
-      if (image && !isSafeImageUrl(image)) {
-        showMessage('Görsel adresi geçersiz. Sadece güvenli URL veya yerel görsel yolu kullan.');
-        return;
-      }
-
-      const items = getStoredNews();
-      const existingId = normalizeText(newsIdHidden.value);
-      const finalId = existingId || generateUniqueId(title, items, existingId);
-
-      const payload = {
-        id: finalId,
-        title: escapeHTML(title),
-        category: escapeHTML(category),
-        date,
-        image,
-        excerpt: escapeHTML(excerpt),
-        content,
-        url: `haber-detay.html?id=${encodeURIComponent(finalId)}`
-      };
-
-      const existingIndex = items.findIndex((item) => item.id === finalId);
-      if (existingIndex >= 0) {
-        items[existingIndex] = payload;
-      } else {
-        items.push(payload);
-      }
-
-      saveStoredNews(items);
-      renderTable();
-      clearForm();
-      showMessage('Haber kaydedildi.');
+  const fetchNews = async () => {
+    const result = await apiJson(endpoints.getNews, {
+      headers: { Accept: 'application/json' }
     });
 
-    if (tableBody) {
-      tableBody.addEventListener('click', (event) => {
-        const editBtn = event.target.closest('.edit-btn');
-        const deleteBtn = event.target.closest('.delete-btn');
-        const items = getStoredNews();
+    return Array.isArray(result.data) ? result.data : [];
+  };
 
-        if (editBtn) {
-          const id = editBtn.dataset.id;
-          const item = items.find((newsItem) => newsItem.id === id);
+  const refreshNewsTable = async () => {
+    if (!newsTableBody) return;
 
-          if (item) {
-            fillForm({
-              ...item,
-              title: item.title || '',
-              category: item.category || '',
-              excerpt: item.excerpt || '',
-              content: item.content || ''
-            });
-          }
-          return;
-        }
+    newsTableBody.innerHTML = `
+      <tr>
+        <td colspan="4" class="text-center py-5">
+          <div class="admin-empty-state">
+            <div class="spinner-border text-warning mb-3" role="status"></div>
+            <div class="admin-empty-title">Haberler yükleniyor</div>
+          </div>
+        </td>
+      </tr>
+    `;
 
-        if (deleteBtn) {
-          const id = deleteBtn.dataset.id;
-          const isConfirmed = window.confirm('Bu haberi silmek istediğine emin misin?');
-          if (!isConfirmed) return;
+    try {
+      const items = await fetchNews();
+      renderNewsTable(items);
+    } catch (error) {
+      renderNewsTable([]);
+      showAlert(error.message, 'error');
+    }
+  };
 
-          const filtered = items.filter((newsItem) => newsItem.id !== id);
-          saveStoredNews(filtered);
-          renderTable();
+  const handleNewsSubmit = async (event) => {
+    event.preventDefault();
+
+    const submitBtn = qs('button[type="submit"]', newsForm);
+    const payload = getNewsFormPayload();
+    const validationError = validateNewsPayload(payload);
+
+    if (validationError) {
+      showAlert(validationError, 'warning');
+      return;
+    }
+
+    try {
+      setButtonLoading(submitBtn, true, 'Kaydediliyor...');
+      const result = await apiJson(endpoints.saveNews, {
+        method: 'POST',
+        body: JSON.stringify(payload)
+      });
+
+      showAlert(result.message || 'Haber kaydedildi.', 'success');
+      clearNewsForm();
+      await refreshNewsTable();
+    } catch (error) {
+      showAlert(error.message, 'error');
+    } finally {
+      setButtonLoading(submitBtn, false);
+    }
+  };
+
+  const handleNewsTableClick = async (event) => {
+    const button = event.target.closest('button[data-action]');
+    if (!button) return;
+
+    const action = button.getAttribute('data-action');
+    const id = button.getAttribute('data-id');
+    if (!id) return;
+
+    if (action === 'edit') {
+      const item = state.newsItems.find((row) => String(row.id) === String(id));
+      fillNewsForm(item);
+      showAlert('Haber düzenleme modunda açıldı.', 'success');
+      return;
+    }
+
+    if (action === 'delete') {
+      const confirmed = window.confirm('Bu haberi silmek istediğine emin misin?');
+      if (!confirmed) return;
+
+      try {
+        setButtonLoading(button, true, 'Siliniyor...');
+        const result = await apiJson(endpoints.deleteNews, {
+          method: 'POST',
+          body: JSON.stringify({ id: Number(id) })
+        });
+
+        showAlert(result.message || 'Haber silindi.', 'success');
+        await refreshNewsTable();
+      } catch (error) {
+        showAlert(error.message, 'error');
+      } finally {
+        setButtonLoading(button, false);
+      }
+    }
+  };
+
+  const serializeFormFields = (form) => {
+    const data = {};
+    qsa('input[id], textarea[id], select[id]', form).forEach((field) => {
+      const key = field.id;
+      if (!key) return;
+      data[key] = field.value ?? '';
+    });
+    return data;
+  };
+
+  const fillFormFields = (form, values) => {
+    if (!form || !values || typeof values !== 'object') return;
+
+    qsa('input[id], textarea[id], select[id]', form).forEach((field) => {
+      const key = field.id;
+      if (!key) return;
+      field.value = values[key] ?? '';
+    });
+  };
+
+  const markFormDirty = (formId, isDirty = true) => {
+    if (!formId) return;
+
+    if (isDirty) {
+      state.dirtyForms.add(formId);
+    } else {
+      state.dirtyForms.delete(formId);
+    }
+
+    const form = qs(`#${formId}`);
+    form?.classList.toggle('is-dirty', state.dirtyForms.has(formId));
+  };
+
+  const saveDraft = (formId, data) => {
+    try {
+      localStorage.setItem(`${STORAGE_KEYS.draftPrefix}${formId}`, JSON.stringify(data));
+    } catch {
+      // sessiz geç
+    }
+  };
+
+  const loadDraft = (formId) => {
+    try {
+      return safeJSONParse(localStorage.getItem(`${STORAGE_KEYS.draftPrefix}${formId}`), null);
+    } catch {
+      return null;
+    }
+  };
+
+  const removeDraft = (formId) => {
+    try {
+      localStorage.removeItem(`${STORAGE_KEYS.draftPrefix}${formId}`);
+    } catch {
+      // sessiz geç
+    }
+  };
+
+  const saveContentGroup = async (group, form) => {
+    const data = serializeFormFields(form);
+
+    return apiJson(endpoints.saveContent, {
+      method: 'POST',
+      body: JSON.stringify({ group, data })
+    });
+  };
+
+  const loadContentGroup = async (group) => {
+    const result = await apiJson(`${endpoints.getContent}?group=${encodeURIComponent(group)}`, {
+      headers: { Accept: 'application/json' }
+    });
+
+    return result.data || {};
+  };
+
+  const bindDraftSupport = (form) => {
+    if (!form) return;
+
+    const formId = form.id;
+
+    qsa('input[id], textarea[id], select[id]', form).forEach((field) => {
+      field.addEventListener('input', () => {
+        const data = serializeFormFields(form);
+        saveDraft(formId, data);
+        markFormDirty(formId, true);
+      });
+    });
+  };
+
+  const restoreDraftIfAny = (form) => {
+    if (!form) return false;
+
+    const draft = loadDraft(form.id);
+    if (!draft) return false;
+
+    const hasAnyValue = Object.values(draft).some((value) => String(value || '').trim() !== '');
+    if (!hasAnyValue) return false;
+
+    fillFormFields(form, draft);
+    markFormDirty(form.id, true);
+    return true;
+  };
+
+  const bindContentForms = () => {
+    formConfigs.forEach((config) => {
+      const form = qs(`#${config.formId}`);
+      const loadBtn = qs(`#${config.loadBtnId}`);
+
+      if (!form) return;
+
+      bindDraftSupport(form);
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        const submitBtn = qs('button[type="submit"]', form);
+
+        try {
+          setButtonLoading(submitBtn, true, 'Kaydediliyor...');
+          const result = await saveContentGroup(config.group, form);
+
+          removeDraft(config.formId);
+          markFormDirty(config.formId, false);
+
+          showAlert(result.message || `${config.label} verisi kaydedildi.`, 'success');
+        } catch (error) {
+          showAlert(error.message, 'error');
+        } finally {
+          setButtonLoading(submitBtn, false);
         }
       });
+
+      if (loadBtn) {
+        loadBtn.addEventListener('click', async () => {
+          try {
+            setButtonLoading(loadBtn, true, 'Yükleniyor...');
+            const data = await loadContentGroup(config.group);
+            fillFormFields(form, data);
+
+            saveDraft(config.formId, serializeFormFields(form));
+            markFormDirty(config.formId, false);
+
+            showAlert('Kayıtlı veri getirildi.', 'success');
+          } catch (error) {
+            showAlert(error.message, 'error');
+          } finally {
+            setButtonLoading(loadBtn, false);
+          }
+        });
+      }
+
+      restoreDraftIfAny(form);
+    });
+  };
+
+  const bindNewsDraft = () => {
+    if (!newsForm) return;
+
+    qsa('input[id], textarea[id], select[id]', newsForm).forEach((field) => {
+      field.addEventListener('input', () => {
+        saveDraft('newsForm', getNewsFormPayload());
+        markFormDirty('newsForm', true);
+      });
+    });
+
+    const restored = restoreDraftIfAny(newsForm);
+    if (restored) {
+      const draft = loadDraft('newsForm');
+      if (draft) {
+        if (newsIdHidden) newsIdHidden.value = draft.id || '';
+        if (newsTitle) newsTitle.value = draft.title || '';
+        if (newsCategory) newsCategory.value = draft.category || '';
+        if (newsDate) newsDate.value = draft.date || '';
+        if (newsImage) newsImage.value = draft.image || '';
+        if (newsExcerpt) newsExcerpt.value = draft.excerpt || '';
+        if (newsContent) newsContent.value = draft.content || '';
+      }
+    }
+  };
+
+  const persistActiveTab = () => {
+    const tabButtons = qsa('#adminTabs [data-bs-toggle="tab"]');
+    if (!tabButtons.length) return;
+
+    tabButtons.forEach((button) => {
+      button.addEventListener('shown.bs.tab', (event) => {
+        const targetId = event.target.getAttribute('data-bs-target') || '';
+        if (!targetId) return;
+
+        try {
+          localStorage.setItem(STORAGE_KEYS.activeTab, targetId);
+        } catch {
+          // sessiz geç
+        }
+      });
+    });
+  };
+
+  const restoreActiveTab = () => {
+    const savedTab = (() => {
+      try {
+        return localStorage.getItem(STORAGE_KEYS.activeTab);
+      } catch {
+        return '';
+      }
+    })();
+
+    if (!savedTab) return;
+
+    const trigger = qs(`#adminTabs [data-bs-target="${savedTab}"]`);
+    if (!trigger || !window.bootstrap?.Tab) return;
+
+    const tab = new bootstrap.Tab(trigger);
+    tab.show();
+  };
+
+  const bindKeyboardShortcuts = () => {
+    document.addEventListener('keydown', (event) => {
+      const isSaveShortcut = (event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's';
+      if (!isSaveShortcut) return;
+
+      const activePane = qs('.tab-pane.active.show');
+      if (!activePane) return;
+
+      const activeForm = qs('form', activePane);
+      if (!activeForm) return;
+
+      event.preventDefault();
+
+      const submitBtn = qs('button[type="submit"]', activeForm);
+      submitBtn?.click();
+    });
+  };
+
+  const bindBeforeUnloadWarning = () => {
+    window.addEventListener('beforeunload', (event) => {
+      if (!state.dirtyForms.size) return;
+
+      event.preventDefault();
+      event.returnValue = '';
+    });
+  };
+
+  const initNewsForm = () => {
+    if (newsForm) {
+      newsForm.addEventListener('submit', handleNewsSubmit);
     }
 
     if (resetFormBtn) {
-      resetFormBtn.addEventListener('click', clearForm);
+      resetFormBtn.addEventListener('click', () => {
+        const confirmed = window.confirm('Formu temizlemek istediğine emin misin?');
+        if (!confirmed) return;
+
+        clearNewsForm();
+        showAlert('Haber formu temizlendi.', 'success');
+      });
     }
 
-    renderTable();
-  })();
-
-  /* ---------------------------
-     2) Corporate Page Management
-  --------------------------- */
-  setupSimpleContentForm({
-    formSelector: '#corporateForm',
-    storageKey: 'ergunler_corporate_content',
-    loadButtonSelector: '#loadCorporateBtn',
-    successMessage: 'Kurumsal sayfa verisi kaydedildi.',
-    fieldMap: {
-      pageTitle: 'corpPageTitle',
-      pageLead: 'corpPageLead',
-      mainTitle: 'corpMainTitle',
-      mainText: 'corpMainText',
-      vision: 'corpVision',
-      mission: 'corpMission',
-      operation: 'corpOperation'
-    },
-    defaults: {
-      pageTitle: 'Hakkımızda',
-      pageLead: 'Üretimden Sahaya • Tek Elden Güçlü Altyapı Çözümleri',
-      mainTitle: 'Güçlü Geçmiş, Sağlam Altyapı',
-      mainText:
-        'Ergünler Yol Yapı Ltd. Şti. olarak; yol, asfalt ve altyapı projelerinde planlama, üretim ve saha uygulamasını tek çatı altında yürüten entegre bir yapı ile çalışıyoruz. Erzurum merkezli operasyon gücümüzü, geniş filomuz ve üretim tesislerimizle destekleyerek projeleri hızlı ve kontrollü şekilde teslim ediyoruz.',
-      vision:
-        'Yenilikçi teknolojilerle, güvenilir ve sürdürülebilir altyapı projelerinde ilk tercih olmak.',
-      mission:
-        'Kalite, iş güvenliği ve çevre hassasiyetinden ödün vermeden; hızlı, kontrollü ve doğru üretimle değer katmak.',
-      operation: 'Üretim ve saha koordinasyonu için tek noktadan iletişim kurabilirsiniz.'
+    if (newsTableBody) {
+      newsTableBody.addEventListener('click', handleNewsTableClick);
     }
-  });
 
-  /* ---------------------------
-     3) Facilities Management
-  --------------------------- */
-  setupSimpleContentForm({
-    formSelector: '#facilitiesForm',
-    storageKey: 'ergunler_facilities_content',
-    loadButtonSelector: '#loadFacilitiesBtn',
-    successMessage: 'Tesisler sayfası verisi kaydedildi.',
-    defaults: {
-      facility1Top: 'Natro Markası',
-      facility1Title: 'Mikronize Kalsit Üretim Tesisi',
-      facility1Text:
-        'Aziziye / Erzurum’daki modern tesisimizde, kendi ocağımızdan çıkarılan gri kalsit cevherini yüksek hassasiyetle işliyoruz. Yapı kimyasalları sektörünün hammadde ihtiyacını yüksek standartlarda karşılıyoruz.',
-      facility1Badge1: '2–5 μ Mikron Hassasiyeti',
-      facility1Badge2: 'Yüksek Safiyet',
-      facility1Badge3: 'Gri Kalsit Cevheri',
-      facility2Top: 'Yol & Altyapı Gücü',
-      facility2Title: 'Asfalt Plenti & Kalsit Ocağı',
-      facility2Text:
-        'Geniş araç filomuz ve modern asfalt plentimiz ile yol projelerine hız katıyoruz. Güçlü filomuz ile lojistik gücümüzü üretim kapasitemizle birleştiriyoruz.',
-      facility2Badge1: 'Filo',
-      facility2Badge2: 'Modern Plent Teknolojisi',
-      facility2Badge3: 'Kesintisiz Sevkiyat'
-    }
-  });
+    bindNewsDraft();
+  };
 
-  /* ---------------------------
-     4) White Calcite Management
-  --------------------------- */
-  setupSimpleContentForm({
-    formSelector: '#whiteCalciteForm',
-    storageKey: 'ergunler_white_calcite_content',
-    loadButtonSelector: '#loadWhiteCalciteBtn',
-    successMessage: 'Beyaz Kalsit sayfası verisi kaydedildi.',
-    defaults: {
-      whiteHeaderTitle: 'Beyaz Kalsit',
-      whiteHeaderLead: 'Natro üretim gücü ile mikronize çözümler',
-      whiteSummaryTitle: 'Ürün Özeti',
-      whiteSummaryText:
-        'Beyaz mikronize kalsit; plastik, boya, yapı kimyasalları ve endüstriyel uygulamalarda dolgu/performans malzemesi olarak kullanılır. İstenen mikron aralığında üretim sağlanır.',
-      whiteBadge1: '2–5 µ Hassasiyet',
-      whiteBadge2: 'Stabil Kalite',
-      whiteBadge3: 'Sevkiyata Uygun',
-      whiteTechnicalTitle: 'Teknik Bilgiler',
-      whiteTech1Name: 'Renk',
-      whiteTech1Value: 'Beyaz / Açık ton',
-      whiteTech2Name: 'Mikron Aralığı',
-      whiteTech2Value: 'Talebe göre',
-      whiteTech3Name: 'Paketleme',
-      whiteTech3Value: 'Torbalı / Dökme'
-    }
-  });
+  const init = async () => {
+    initNewsForm();
+    bindContentForms();
+    persistActiveTab();
+    restoreActiveTab();
+    bindKeyboardShortcuts();
+    bindBeforeUnloadWarning();
 
-  /* ---------------------------
-     5) Advanced Facilities Management
-  --------------------------- */
-  setupSimpleContentForm({
-    formSelector: '#facilitiesAdvancedForm',
-    storageKey: 'ergunler_facilities_advanced_content',
-    loadButtonSelector: '#loadFacilitiesAdvancedBtn',
-    successMessage: 'Tesisler sayfası verisi kaydedildi.',
-    defaults: {
-      facilityAsphaltKicker: 'Asfalt Üretimi',
-      facilityAsphaltTitle: 'Asfalt Tesisi',
-      facilityAsphaltText:
-        'Modern plent altyapımız ile yol projeleri için düzenli, kontrollü ve saha takvimine uyumlu asfalt üretimi sağlıyoruz. Üretim planlamasını sevkiyat ve uygulama temposuna göre organize ediyoruz.',
-      facilityAsphaltBadge1: 'Plent Altyapısı',
-      facilityAsphaltBadge2: 'Saha Uyumlu Üretim',
-      facilityAsphaltBadge3: 'Planlı Sevkiyat',
-      facilityGrayKicker: 'Natro Üretim Hattı',
-      facilityGrayTitle: 'Gri Kalsit Tesisi',
-      facilityGrayText:
-        'Kendi hammadde altyapımızdan beslenen gri kalsit üretim sürecinde, istenen mikron aralığında kontrollü öğütme ve düzenli ürün standardı sağlamayı hedefliyoruz.',
-      facilityGrayBadge1: '2–5 μ Hassasiyet',
-      facilityGrayBadge2: 'Gri Cevher İşleme',
-      facilityGrayBadge3: 'Stabil Üretim',
-      facilityWhiteKicker: 'Açık Ton Üretim',
-      facilityWhiteTitle: 'Beyaz Kalsit Tesisi',
-      facilityWhiteText:
-        'Beyaz mikronize kalsit tarafında daha hassas kullanım alanlarına uygun, temiz tonlu ve düzenli kalite standardına sahip ürün akışı oluşturuyoruz.',
-      facilityWhiteBadge1: 'Açık Ton Üretim',
-      facilityWhiteBadge2: 'Hassas Öğütme',
-      facilityWhiteBadge3: 'Endüstriyel Uyum',
-      facilityAgregaKicker: 'Kırma-Eleme Altyapısı',
-      facilityAgregaTitle: 'Agrega Tesisi',
-      facilityAgregaText:
-        'Kırma-eleme tesisimizde farklı fraksiyonlarda agrega üretimi yapıyor; altyapı, yol ve dolgu projeleri için projeye uygun malzeme akışı ve planlı sevkiyat sağlıyoruz.',
-      facilityAgregaBadge1: 'Fraksiyon Yönetimi',
-      facilityAgregaBadge2: 'Kırma-Eleme',
-      facilityAgregaBadge3: 'Hızlı Yükleme'
+    await refreshNewsTable();
+
+    const hasDrafts =
+      !!loadDraft('newsForm') ||
+      formConfigs.some((config) => !!loadDraft(config.formId));
+
+    if (hasDrafts) {
+      showAlert('Kaydedilmemiş taslak alanlar geri yüklendi.', 'warning');
     }
-  });
+  };
+
+  document.addEventListener('DOMContentLoaded', init);
 })();

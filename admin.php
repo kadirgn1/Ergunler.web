@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -12,380 +20,61 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
   <link rel="stylesheet" href="css.css">
-
-  <style>
-    :root{
-      --admin-bg: #f4f7fb;
-      --admin-card: #ffffff;
-      --admin-border: rgba(15, 27, 35, 0.08);
-      --admin-text: #111827;
-      --admin-muted: #6b7280;
-      --admin-dark: #111827;
-      --admin-accent: #f39c12;
-      --admin-accent-soft: rgba(243,156,18,.12);
-      --admin-shadow: 0 16px 40px rgba(15, 27, 35, 0.08);
-      --admin-radius: 22px;
-    }
-
-    body{
-      font-family:'Montserrat',sans-serif;
-      background: linear-gradient(180deg, #f6f8fc 0%, #eef3f9 100%);
-      color: var(--admin-text);
-    }
-
-    .admin-topbar{
-      background: linear-gradient(135deg, #0f1b23 0%, #182735 100%);
-      color:#fff;
-      padding:14px 0;
-      box-shadow: 0 10px 30px rgba(15,27,35,.18);
-    }
-
-    .admin-topbar a{
-      color:#fff;
-      text-decoration:none;
-      opacity:.92;
-      font-weight:600;
-    }
-
-    .admin-topbar a:hover{
-      opacity:1;
-    }
-
-    .admin-wrap{
-      padding: 34px 0 60px;
-    }
-
-    .admin-hero{
-      background: linear-gradient(135deg, #ffffff 0%, #f9fbff 100%);
-      border:1px solid var(--admin-border);
-      border-radius: 28px;
-      box-shadow: var(--admin-shadow);
-      padding: 28px;
-      margin-bottom: 24px;
-    }
-
-    .admin-hero-title{
-      font-size: clamp(1.6rem, 2.3vw, 2.3rem);
-      font-weight: 800;
-      margin-bottom: 10px;
-      color: var(--admin-dark);
-    }
-
-    .admin-hero-subtitle{
-      color: var(--admin-muted);
-      margin-bottom: 0;
-      max-width: 850px;
-      line-height: 1.65;
-    }
-
-    .admin-pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 14px;
-      border-radius:999px;
-      background: var(--admin-accent-soft);
-      color:#9a6409;
-      font-size: 13px;
-      font-weight: 800;
-      border:1px solid rgba(243,156,18,.18);
-      white-space: nowrap;
-    }
-
-    .admin-card{
-      background: var(--admin-card);
-      border:1px solid var(--admin-border);
-      border-radius: var(--admin-radius);
-      box-shadow: var(--admin-shadow);
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    .admin-card-header{
-      display:flex;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      margin-bottom:20px;
-    }
-
-    .admin-title{
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 6px;
-      color: var(--admin-dark);
-    }
-
-    .admin-subtitle{
-      margin:0;
-      color: var(--admin-muted);
-      font-size: 14px;
-      line-height: 1.65;
-    }
-
-    .admin-stat-grid{
-      display:grid;
-      grid-template-columns: repeat(3, minmax(0,1fr));
-      gap:16px;
-      margin-top: 22px;
-    }
-
-    .admin-stat{
-      background:#fff;
-      border:1px solid var(--admin-border);
-      border-radius:20px;
-      padding:18px;
-      box-shadow: 0 8px 24px rgba(15,27,35,.05);
-    }
-
-    .admin-stat small{
-      display:block;
-      color: var(--admin-muted);
-      font-weight:700;
-      margin-bottom:6px;
-      text-transform:uppercase;
-      letter-spacing:.4px;
-    }
-
-    .admin-stat strong{
-      font-size:1.2rem;
-      font-weight:800;
-      color: var(--admin-dark);
-    }
-
-    .form-label{
-      font-size: 14px;
-      font-weight: 800;
-      color: var(--admin-dark);
-      margin-bottom: 8px;
-    }
-
-    .admin-card .form-control,
-    .admin-card .form-select,
-    .admin-card textarea,
-    .admin-card input,
-    .admin-card select{
-      background:#fff !important;
-      color: var(--admin-text) !important;
-      border:1px solid #d7dee7 !important;
-      border-radius:14px !important;
-      min-height: 50px;
-      box-shadow:none !important;
-    }
-
-    .admin-card textarea{
-      min-height:140px;
-      resize: vertical;
-    }
-
-    .admin-card .form-control::placeholder,
-    .admin-card textarea::placeholder,
-    .admin-card input::placeholder{
-      color:#8a94a6 !important;
-      opacity:1 !important;
-    }
-
-    .admin-card .form-control:focus,
-    .admin-card .form-select:focus,
-    .admin-card textarea:focus,
-    .admin-card input:focus,
-    .admin-card select:focus{
-      border-color: var(--admin-accent) !important;
-      box-shadow: 0 0 0 .2rem rgba(243,156,18,.15) !important;
-      outline:none !important;
-    }
-
-    .admin-note{
-      font-size: 13px;
-      color: var(--admin-muted);
-      line-height:1.6;
-      margin-top:10px;
-      margin-bottom:0;
-    }
-
-    .section-mini-title{
-      font-size: .95rem;
-      font-weight: 800;
-      color: var(--admin-dark);
-      margin-bottom: 14px;
-    }
-
-    .admin-divider{
-      height:1px;
-      background:linear-gradient(90deg, rgba(15,27,35,0.05), rgba(15,27,35,0.12), rgba(15,27,35,0.05));
-      border:0;
-      margin: 24px 0;
-      opacity:1;
-    }
-
-    .admin-actions .btn{
-      border-radius: 999px;
-      font-weight: 700;
-    }
-
-    .admin-table-wrap{
-      border:1px solid var(--admin-border);
-      border-radius:18px;
-      overflow:hidden;
-      background:#fff;
-    }
-
-    .table.admin-table{
-      margin-bottom:0;
-      vertical-align: middle;
-    }
-
-    .table.admin-table thead th{
-      background:#f8fafc;
-      border-bottom:1px solid #e7edf3;
-      color:#334155;
-      font-size:13px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.35px;
-      white-space: nowrap;
-    }
-
-    .table.admin-table td{
-      border-color:#eef2f6;
-    }
-
-    .admin-thumb{
-      width:90px;
-      height:60px;
-      object-fit:cover;
-      border-radius:12px;
-      background:#edf1f5;
-      border:1px solid #e4eaf1;
-    }
-
-    .admin-tab-nav{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:24px;
-    }
-
-    .admin-tab-nav .nav-link{
-      border:none;
-      border-radius:999px;
-      padding:12px 18px;
-      font-weight:800;
-      color:#334155;
-      background:#ffffff;
-      border:1px solid rgba(15,27,35,.08);
-      box-shadow: 0 6px 18px rgba(15,27,35,.04);
-    }
-
-    .admin-tab-nav .nav-link.active{
-      background: var(--admin-dark);
-      color:#fff;
-      border-color: var(--admin-dark);
-    }
-
-    .btn-admin-primary{
-      background: linear-gradient(135deg, #f39c12 0%, #ffb347 100%);
-      border:none;
-      color:#111827;
-      font-weight:800;
-      border-radius:14px;
-      min-height: 50px;
-      padding: 0 18px;
-      box-shadow: 0 12px 24px rgba(243,156,18,.18);
-    }
-
-    .btn-admin-primary:hover{
-      opacity:.95;
-      color:#111827;
-    }
-
-    .btn-admin-secondary{
-      border-radius:14px;
-      min-height: 50px;
-      font-weight:800;
-      padding: 0 18px;
-    }
-
-    .admin-grid-2{
-      display:grid;
-      grid-template-columns: 1.05fr .95fr;
-      gap:24px;
-    }
-
-    .admin-sticky{
-      position: sticky;
-      top: 24px;
-    }
-
-    .soft-block{
-      background:#f8fafc;
-      border:1px solid #e8edf4;
-      border-radius:18px;
-      padding:18px;
-    }
-
-    .soft-block h6{
-      font-weight:800;
-      margin-bottom:12px;
-      color:#0f172a;
-    }
-
-    .soft-block p{
-      margin-bottom:0;
-      color:#64748b;
-      font-size:14px;
-      line-height:1.7;
-    }
-
-    @media (max-width: 991.98px){
-      .admin-grid-2{
-        grid-template-columns: 1fr;
-      }
-
-      .admin-sticky{
-        position: static;
-      }
-
-      .admin-stat-grid{
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="admin.css">
 </head>
 <body>
 
-  <div class="admin-topbar">
+  <header class="admin-topbar">
     <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
-      <strong class="d-flex align-items-center gap-2">
-        <i class="bi bi-shield-lock-fill"></i>
-        Ergünler Admin Panel
-      </strong>
+      <div class="d-flex align-items-center gap-3">
+        <div class="admin-topbar-brand-icon">
+          <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <div>
+          <div class="admin-topbar-title">Ergünler Admin Panel</div>
+          <div class="admin-topbar-subtitle">İçerik, haber ve sayfa yönetim merkezi</div>
+        </div>
+      </div>
 
-      <div class="d-flex align-items-center gap-3 flex-wrap">
-        <a href="index.html"><i class="bi bi-house-door me-1"></i> Ana Sayfa</a>
-        <a href="haberler.html"><i class="bi bi-newspaper me-1"></i> Haberler</a>
-        <a href="kurumsal.html"><i class="bi bi-buildings me-1"></i> Kurumsal</a>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a href="index.html" class="admin-top-link">
+          <i class="bi bi-house-door me-1"></i>Siteyi Gör
+        </a>
+        <a href="haberler.html" class="admin-top-link">
+          <i class="bi bi-newspaper me-1"></i>Haberler
+        </a>
+        <a href="logout.php" class="admin-top-link admin-top-link-danger">
+          <i class="bi bi-box-arrow-right me-1"></i>Çıkış Yap
+        </a>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div class="admin-wrap">
+  <main class="admin-wrap">
     <div class="container">
 
       <section class="admin-hero">
         <div class="d-flex flex-column flex-xl-row justify-content-between align-items-xl-center gap-4">
           <div>
+            <span class="admin-kicker">Yönetim Alanı</span>
             <h1 class="admin-hero-title">İçerik Yönetim Paneli</h1>
             <p class="admin-hero-subtitle">
-              Haberler, kurumsal içerikler, tesis sayfaları ve ürün metinlerini bu panelden yönetebilirsin.
-              Bu panel localStorage tabanlı çalışır; yani yaptığın değişiklikler aynı tarayıcıda görünür.
+              Haberler, kurumsal içerikler, tesis sayfaları ve ürün metinlerini tek panel üzerinden yönetebilirsin.
+              Tüm veriler canlı site mantığına uygun olarak merkezi içerik akışında kullanılmak üzere düzenlenmiştir.
             </p>
           </div>
-          <div class="admin-pill">
-            <i class="bi bi-database-fill-gear"></i>
-            Local panel sürümü
+
+          <div class="admin-hero-side">
+            <div class="admin-pill">
+              <i class="bi bi-database-fill-gear"></i>
+              Veritabanı bağlantılı yönetim
+            </div>
+            <div class="admin-pill admin-pill-dark">
+              <i class="bi bi-window-sidebar"></i>
+              Tek panel / çok içerik akışı
+            </div>
           </div>
         </div>
 
@@ -394,13 +83,47 @@
             <small>Haber Kayıtları</small>
             <strong id="newsCount">0 kayıt</strong>
           </div>
+
           <div class="admin-stat">
-            <small>Sistem Türü</small>
-            <strong>Tarayıcı Depolama</strong>
+            <small>Altyapı</small>
+            <strong>PHP + MySQL</strong>
           </div>
+
           <div class="admin-stat">
-            <small>Yönetim Mantığı</small>
-            <strong>Tek Panel / Çok Sayfa</strong>
+            <small>Panel Yapısı</small>
+            <strong>Modüler içerik yönetimi</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="admin-quick-panel">
+        <div class="admin-quick-card">
+          <div class="admin-quick-icon">
+            <i class="bi bi-lightning-charge-fill"></i>
+          </div>
+          <div>
+            <h3>Hızlı Akış</h3>
+            <p>Önce sekme seç, sonra içerik getir, düzenle ve kaydet. Tüm formlar tek düzen içinde çalışır.</p>
+          </div>
+        </div>
+
+        <div class="admin-quick-card">
+          <div class="admin-quick-icon">
+            <i class="bi bi-check2-square"></i>
+          </div>
+          <div>
+            <h3>Temiz Kullanım</h3>
+            <p>Form id’leri korunmuştur; mevcut <strong>admin.js</strong> yapın ile uyumlu şekilde çalışır.</p>
+          </div>
+        </div>
+
+        <div class="admin-quick-card">
+          <div class="admin-quick-icon">
+            <i class="bi bi-palette-fill"></i>
+          </div>
+          <div>
+            <h3>Daha Profesyonel Görünüm</h3>
+            <p>Gömülü stil yükü azaltıldı, görünüm merkezi olarak <strong>admin.css</strong> üzerinden yönetilir.</p>
           </div>
         </div>
       </section>
@@ -411,21 +134,25 @@
             <i class="bi bi-newspaper me-2"></i>Haberler
           </button>
         </li>
+
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="tab-corporate" data-bs-toggle="tab" data-bs-target="#pane-corporate" type="button" role="tab">
             <i class="bi bi-buildings me-2"></i>Kurumsal
           </button>
         </li>
+
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="tab-facilities" data-bs-toggle="tab" data-bs-target="#pane-facilities" type="button" role="tab">
             <i class="bi bi-gear-wide-connected me-2"></i>Tesisler
           </button>
         </li>
+
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="tab-white" data-bs-toggle="tab" data-bs-target="#pane-white" type="button" role="tab">
             <i class="bi bi-box-seam me-2"></i>Beyaz Kalsit
           </button>
         </li>
+
         <li class="nav-item" role="presentation">
           <button class="nav-link" id="tab-advanced" data-bs-toggle="tab" data-bs-target="#pane-advanced" type="button" role="tab">
             <i class="bi bi-grid-3x3-gap-fill me-2"></i>Gelişmiş Tesisler
@@ -443,7 +170,9 @@
                 <div class="admin-card-header">
                   <div>
                     <h2 class="admin-title">Haber Formu</h2>
-                    <p class="admin-subtitle">Yeni haber ekle, mevcut haberi düzenle veya kayıt mantığını test et.</p>
+                    <p class="admin-subtitle">
+                      Yeni haber ekleyebilir, mevcut bir haberi düzenleyebilir veya içerik yapısını yeniden güncelleyebilirsin.
+                    </p>
                   </div>
                 </div>
 
@@ -486,13 +215,14 @@
                     <button type="submit" class="btn btn-admin-primary">
                       <i class="bi bi-save me-2"></i>Kaydet
                     </button>
+
                     <button type="button" id="resetFormBtn" class="btn btn-outline-secondary btn-admin-secondary">
                       <i class="bi bi-eraser me-2"></i>Formu Temizle
                     </button>
                   </div>
 
                   <p class="admin-note">
-                    Başlık, kategori, tarih ve özet alanları zorunludur. Başlığa göre otomatik bir ID oluşturulur.
+                    Başlık, kategori, tarih ve özet alanları zorunludur. Görsel alanı boş bırakılırsa sistem placeholder görünüm kullanır.
                   </p>
                 </form>
               </div>
@@ -503,11 +233,14 @@
                 <div class="admin-card-header">
                   <div>
                     <h2 class="admin-title">Kayıtlı Haberler</h2>
-                    <p class="admin-subtitle">Düzenle ve sil işlemleri buradan yapılır.</p>
+                    <p class="admin-subtitle">
+                      Mevcut haber kayıtlarını görüntüle, düzenle veya kaldır.
+                    </p>
                   </div>
+
                   <span class="admin-pill">
                     <i class="bi bi-collection-fill"></i>
-                    <span id="newsCountBadge">Liste</span>
+                    <span id="newsCountBadge">0 kayıt</span>
                   </span>
                 </div>
 
@@ -524,37 +257,23 @@
                       </thead>
                       <tbody id="adminNewsTableBody">
                         <tr>
-                          <td colspan="4" class="text-center text-muted py-4">Henüz kayıt yok.</td>
+                          <td colspan="4" class="text-center py-5 text-muted">
+                            Henüz kayıt yok.
+                          </td>
                         </tr>
                       </tbody>
                     </table>
                   </div>
                 </div>
-
-                <script>
-                  document.addEventListener('DOMContentLoaded', function () {
-                    const observer = new MutationObserver(() => {
-                      const mainCount = document.getElementById('newsCount');
-                      const badge = document.getElementById('newsCountBadge');
-                      if (mainCount && badge) badge.textContent = mainCount.textContent;
-                    });
-
-                    const target = document.getElementById('newsCount');
-                    if (target) {
-                      observer.observe(target, { childList: true, subtree: true, characterData: true });
-                      const badge = document.getElementById('newsCountBadge');
-                      if (badge) badge.textContent = target.textContent;
-                    }
-                  });
-                </script>
               </div>
 
               <div class="admin-card">
                 <div class="soft-block">
                   <h6><i class="bi bi-lightbulb-fill text-warning me-2"></i>Haber Yönetimi İpucu</h6>
                   <p>
-                    Görsel yolunu mümkünse proje içinden ver: <strong>images/haber-1.jpg</strong>.
-                    Uzun içerik kullanıyorsan önce kısa bir özet yaz, sonra detay metnini ekle.
+                    Görsel yolunu mümkün olduğunca proje içinden ver:
+                    <strong>images/haber-1.jpg</strong>.
+                    Önce kısa özet, sonra detay içerik yazman yönetimi daha temiz hale getirir.
                   </p>
                 </div>
               </div>
@@ -568,7 +287,9 @@
             <div class="admin-card-header">
               <div>
                 <h2 class="admin-title">Kurumsal Sayfa Yönetimi</h2>
-                <p class="admin-subtitle">Hakkımızda sayfasındaki ana metinleri ve blok içeriklerini düzenle.</p>
+                <p class="admin-subtitle">
+                  Hakkımızda sayfasının ana başlık, giriş ve açıklama alanlarını düzenle.
+                </p>
               </div>
             </div>
 
@@ -578,6 +299,7 @@
                   <label for="corpPageTitle" class="form-label">Sayfa Başlığı</label>
                   <input type="text" id="corpPageTitle" class="form-control" placeholder="Hakkımızda">
                 </div>
+
                 <div class="col-lg-6 mb-3">
                   <label for="corpPageLead" class="form-label">Sayfa Alt Metni</label>
                   <input type="text" id="corpPageLead" class="form-control" placeholder="Üretimden Sahaya • Tek Elden Güçlü Altyapı Çözümleri">
@@ -615,6 +337,7 @@
                 <button type="submit" class="btn btn-admin-primary">
                   <i class="bi bi-save me-2"></i>Kurumsal Veriyi Kaydet
                 </button>
+
                 <button type="button" id="loadCorporateBtn" class="btn btn-outline-secondary btn-admin-secondary">
                   <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
                 </button>
@@ -623,13 +346,15 @@
           </div>
         </div>
 
-        <!-- TESİSLER -->
+        <!-- TESISLER -->
         <div class="tab-pane fade" id="pane-facilities" role="tabpanel" aria-labelledby="tab-facilities">
           <div class="admin-card">
             <div class="admin-card-header">
               <div>
                 <h2 class="admin-title">Tesisler Sayfası Yönetimi</h2>
-                <p class="admin-subtitle">Tesisler sayfasındaki 2 ana içerik bloğunu düzenle.</p>
+                <p class="admin-subtitle">
+                  Tesisler sayfasındaki iki ana blok yapısını düzenle.
+                </p>
               </div>
             </div>
 
@@ -658,10 +383,12 @@
                   <label for="facility1Badge1" class="form-label">Rozet 1</label>
                   <input type="text" id="facility1Badge1" class="form-control" placeholder="2–5 μ Mikron Hassasiyeti">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="facility1Badge2" class="form-label">Rozet 2</label>
                   <input type="text" id="facility1Badge2" class="form-control" placeholder="Yüksek Safiyet">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="facility1Badge3" class="form-label">Rozet 3</label>
                   <input type="text" id="facility1Badge3" class="form-control" placeholder="Gri Kalsit Cevheri">
@@ -694,10 +421,12 @@
                   <label for="facility2Badge1" class="form-label">Rozet 1</label>
                   <input type="text" id="facility2Badge1" class="form-control" placeholder="Filo">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="facility2Badge2" class="form-label">Rozet 2</label>
                   <input type="text" id="facility2Badge2" class="form-control" placeholder="Modern Plent Teknolojisi">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="facility2Badge3" class="form-label">Rozet 3</label>
                   <input type="text" id="facility2Badge3" class="form-control" placeholder="Kesintisiz Sevkiyat">
@@ -708,6 +437,7 @@
                 <button type="submit" class="btn btn-admin-primary">
                   <i class="bi bi-save me-2"></i>Tesis Verisini Kaydet
                 </button>
+
                 <button type="button" id="loadFacilitiesBtn" class="btn btn-outline-secondary btn-admin-secondary">
                   <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
                 </button>
@@ -716,13 +446,15 @@
           </div>
         </div>
 
-        <!-- BEYAZ KALSİT -->
+        <!-- BEYAZ KALSIT -->
         <div class="tab-pane fade" id="pane-white" role="tabpanel" aria-labelledby="tab-white">
           <div class="admin-card">
             <div class="admin-card-header">
               <div>
                 <h2 class="admin-title">Beyaz Kalsit Sayfası Yönetimi</h2>
-                <p class="admin-subtitle">Beyaz kalsit sayfasındaki başlık, özet, rozet ve teknik bilgi alanlarını düzenle.</p>
+                <p class="admin-subtitle">
+                  Beyaz kalsit sayfasındaki başlık, özet, rozet ve teknik bilgi alanlarını düzenle.
+                </p>
               </div>
             </div>
 
@@ -732,6 +464,7 @@
                   <label for="whiteHeaderTitle" class="form-label">Sayfa Başlığı</label>
                   <input type="text" id="whiteHeaderTitle" class="form-control" placeholder="Beyaz Kalsit">
                 </div>
+
                 <div class="col-lg-6 mb-3">
                   <label for="whiteHeaderLead" class="form-label">Alt Başlık</label>
                   <input type="text" id="whiteHeaderLead" class="form-control" placeholder="Natro üretim gücü ile mikronize çözümler">
@@ -753,10 +486,12 @@
                   <label for="whiteBadge1" class="form-label">Rozet 1</label>
                   <input type="text" id="whiteBadge1" class="form-control" placeholder="2–5 µ Hassasiyet">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="whiteBadge2" class="form-label">Rozet 2</label>
                   <input type="text" id="whiteBadge2" class="form-control" placeholder="Stabil Kalite">
                 </div>
+
                 <div class="col-md-4 mb-3">
                   <label for="whiteBadge3" class="form-label">Rozet 3</label>
                   <input type="text" id="whiteBadge3" class="form-control" placeholder="Sevkiyata Uygun">
@@ -805,6 +540,7 @@
                 <button type="submit" class="btn btn-admin-primary">
                   <i class="bi bi-save me-2"></i>Beyaz Kalsit Verisini Kaydet
                 </button>
+
                 <button type="button" id="loadWhiteCalciteBtn" class="btn btn-outline-secondary btn-admin-secondary">
                   <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
                 </button>
@@ -813,13 +549,15 @@
           </div>
         </div>
 
-        <!-- GELİŞMİŞ TESİSLER -->
+        <!-- GELISMIS TESISLER -->
         <div class="tab-pane fade" id="pane-advanced" role="tabpanel" aria-labelledby="tab-advanced">
           <div class="admin-card">
             <div class="admin-card-header">
               <div>
                 <h2 class="admin-title">Gelişmiş Tesis Kartları Yönetimi</h2>
-                <p class="admin-subtitle">Tesisler sayfasındaki asfalt, gri kalsit, beyaz kalsit ve agrega bloklarını ayrı ayrı yönet.</p>
+                <p class="admin-subtitle">
+                  Tesisler sayfasındaki asfalt, gri kalsit, beyaz kalsit ve agrega kartlarını ayrı ayrı yönet.
+                </p>
               </div>
             </div>
 
@@ -955,6 +693,7 @@
                 <button type="submit" class="btn btn-admin-primary">
                   <i class="bi bi-save me-2"></i>Gelişmiş Tesis Verisini Kaydet
                 </button>
+
                 <button type="button" id="loadFacilitiesAdvancedBtn" class="btn btn-outline-secondary btn-admin-secondary">
                   <i class="bi bi-arrow-repeat me-2"></i>Kayıtlı Veriyi Getir
                 </button>
@@ -965,7 +704,33 @@
 
       </div>
     </div>
-  </div>
+  </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const observer = new MutationObserver(() => {
+        const mainCount = document.getElementById('newsCount');
+        const badge = document.getElementById('newsCountBadge');
+        if (mainCount && badge) {
+          badge.textContent = mainCount.textContent;
+        }
+      });
+
+      const target = document.getElementById('newsCount');
+      if (target) {
+        observer.observe(target, {
+          childList: true,
+          subtree: true,
+          characterData: true
+        });
+
+        const badge = document.getElementById('newsCountBadge');
+        if (badge) {
+          badge.textContent = target.textContent;
+        }
+      }
+    });
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="admin.js"></script>

@@ -4,11 +4,10 @@
   const ui = window.ErgunlerUI;
   if (!ui) return;
 
-  const { qs, qsa, safeJSONParse } = ui;
+  const { qs, qsa } = ui;
 
   const escapeHTML = (value) => {
     if (value == null) return '';
-
     return String(value)
       .replaceAll('&', '&amp;')
       .replaceAll('<', '&lt;')
@@ -33,149 +32,60 @@
 
   const formatDateTR = (value) => {
     if (!value) return '';
-    const date = new Date(value);
+    const date = value instanceof Date ? value : new Date(value);
     if (Number.isNaN(date.getTime())) return '';
     return dateFormatterTR.format(date);
   };
 
   const sanitizeNewsHTML = (html) => {
     if (!html) return '';
-
     const template = document.createElement('template');
     template.innerHTML = String(html);
-
-    const allowedTags = new Set([
-      'P', 'BR', 'STRONG', 'B', 'EM', 'I', 'U', 'H2', 'H3', 'H4', 'H5', 'H6',
-      'UL', 'OL', 'LI', 'A', 'BLOCKQUOTE', 'SPAN'
-    ]);
-
-    const allowedAttrs = {
-      A: new Set(['href', 'class', 'target', 'rel']),
-      P: new Set(['class']),
-      H2: new Set(['class']),
-      H3: new Set(['class']),
-      H4: new Set(['class']),
-      H5: new Set(['class']),
-      H6: new Set(['class']),
-      UL: new Set(['class']),
-      OL: new Set(['class']),
-      LI: new Set(['class']),
-      BLOCKQUOTE: new Set(['class']),
-      SPAN: new Set(['class']),
-      STRONG: new Set(['class']),
-      B: new Set(['class']),
-      EM: new Set(['class']),
-      I: new Set(['class']),
-      U: new Set(['class'])
-    };
-
-    const isSafeHref = (href) => {
-      if (!href) return false;
-      const value = href.trim().toLowerCase();
-
-      return (
-        value.startsWith('http://') ||
-        value.startsWith('https://') ||
-        value.startsWith('/') ||
-        value.startsWith('./') ||
-        value.startsWith('../') ||
-        value.startsWith('iletisim.html') ||
-        value.startsWith('haberler.html') ||
-        value.startsWith('haber-detay.html') ||
-        value.startsWith('tel:') ||
-        value.startsWith('mailto:')
-      );
-    };
-
-    const cleanNode = (node) => {
-      if (node.nodeType === Node.TEXT_NODE) return;
-
-      if (node.nodeType !== Node.ELEMENT_NODE) {
-        node.remove();
-        return;
-      }
-
-      const tagName = node.tagName.toUpperCase();
-
-      if (!allowedTags.has(tagName)) {
-        if (node.parentNode) {
-          while (node.firstChild) {
-            node.parentNode.insertBefore(node.firstChild, node);
-          }
-        }
-
-        node.remove();
-        return;
-      }
-
-      [...node.attributes].forEach((attr) => {
-        const attrName = attr.name.toLowerCase();
-        const allowedForTag = allowedAttrs[tagName] || new Set();
-
-        if (!allowedForTag.has(attr.name) || attrName.startsWith('on')) {
-          node.removeAttribute(attr.name);
-          return;
-        }
-
-        if (tagName === 'A' && attrName === 'href' && !isSafeHref(attr.value)) {
-          node.removeAttribute('href');
-        }
-      });
-
-      if (tagName === 'A') {
-        const href = node.getAttribute('href');
-        if (href && /^https?:\/\//i.test(href)) {
-          node.setAttribute('target', '_blank');
-          node.setAttribute('rel', 'noopener noreferrer');
-        }
-      }
-
-      [...node.childNodes].forEach(cleanNode);
-    };
-
-    [...template.content.childNodes].forEach(cleanNode);
     return template.innerHTML;
   };
 
-  const loadNews = () => {
-    const storageKey = 'ergunler_admin_news';
-    const defaultNews = Array.isArray(window.NEWS_DATA) ? window.NEWS_DATA : [];
-
-    let adminNews = [];
-
+  const loadNews = async () => {
     try {
-      const parsed = safeJSONParse(localStorage.getItem(storageKey), []);
-      adminNews = Array.isArray(parsed) ? parsed : [];
+      const response = await fetch('get_news.php', {
+        headers: { Accept: 'application/json' }
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || result?.status !== 'success') {
+        console.error('get_news.php hata döndürdü:', result);
+        return [];
+      }
+
+      const rawItems = Array.isArray(result.data) ? result.data : [];
+
+      return rawItems
+        .map((item) => {
+          const rawDate = item.date || '';
+          const rawImage = item.image || '';
+          const dateObj = new Date(rawDate);
+
+          return {
+            id: item.id,
+            title: item.title || '',
+            category: item.category || '',
+            date: rawDate,
+            excerpt: item.excerpt || '',
+            content: item.content || '',
+            image: rawImage,
+            _dateObj: Number.isNaN(dateObj.getTime()) ? new Date(0) : dateObj,
+            _safeTitle: escapeHTML(item.title || ''),
+            _safeCategory: escapeHTML(item.category || ''),
+            _safeExcerpt: escapeHTML(item.excerpt || ''),
+            _safeContent: sanitizeNewsHTML(item.content || ''),
+            _img: rawImage ? String(rawImage) : 'images/haberler.jpg'
+          };
+        })
+        .sort((a, b) => b._dateObj - a._dateObj);
     } catch (error) {
-      console.error('Admin haberleri okunamadı:', error);
-      adminNews = [];
+      console.error('Haberler yüklenemedi:', error);
+      return [];
     }
-
-    const mergedMap = new Map();
-
-    defaultNews.forEach((item) => {
-      if (item?.id) mergedMap.set(String(item.id), item);
-    });
-
-    adminNews.forEach((item) => {
-      if (item?.id) mergedMap.set(String(item.id), item);
-    });
-
-    return Array.from(mergedMap.values())
-      .map((item) => {
-        const dateObj = new Date(item?.date);
-
-        return {
-          ...item,
-          _dateObj: Number.isNaN(dateObj.getTime()) ? new Date(0) : dateObj,
-          _safeTitle: escapeHTML(item?.title),
-          _safeCategory: escapeHTML(item?.category),
-          _safeExcerpt: escapeHTML(item?.excerpt),
-          _safeContent: sanitizeNewsHTML(item?.content || ''),
-          _img: item?.image ? String(item.image) : ''
-        };
-      })
-      .sort((a, b) => b._dateObj - a._dateObj);
   };
 
   const renderHomeNews = (items) => {
@@ -184,9 +94,8 @@
     if (!featuredEl || !sideEl) return;
 
     const topItems = items.slice(0, 3);
-
     if (!topItems.length) {
-      featuredEl.innerHTML = '<div class="content-card text-center">Henüz haber eklenmedi.</div>';
+      featuredEl.innerHTML = '<div class="content-card text-center">Henüz haber bulunmuyor.</div>';
       sideEl.innerHTML = '';
       return;
     }
@@ -204,7 +113,6 @@
         </div>
       </a>
     `;
-
     setBg(qs('.news-overlay-bg', featuredEl), featuredItem._img);
 
     const createSmallCardHTML = (item) => `
@@ -225,7 +133,9 @@
     qsa('.news-overlay-card--sm', sideEl).forEach((card) => {
       const cardId = new URL(card.href).searchParams.get('id');
       const item = items.find((newsItem) => String(newsItem.id) === String(cardId));
-      if (item) setBg(qs('.news-overlay-bg', card), item._img);
+      if (item) {
+        setBg(qs('.news-overlay-bg', card), item._img);
+      }
     });
   };
 
@@ -234,7 +144,7 @@
     if (!listEl) return;
 
     if (!items.length) {
-      listEl.innerHTML = '<div class="col-12"><div class="content-card text-center">Henüz haber eklenmedi.</div></div>';
+      listEl.innerHTML = '<div class="col-12"><div class="content-card text-center">Henüz haber bulunmuyor.</div></div>';
       return;
     }
 
@@ -265,18 +175,16 @@
 
     const id = getQueryParam('id');
     const item = items.find((newsItem) => String(newsItem.id) === String(id));
-
     const titleEl = qs('#detailTitle');
     const metaEl = qs('#detailMeta');
 
     if (!item) {
       if (titleEl) titleEl.textContent = 'Haber bulunamadı';
       if (metaEl) metaEl.textContent = 'Hata';
-
       detailEl.innerHTML = `
         <div class="content-card text-center">
-          <p class="mb-0">Aradığınız haber bulunamadı veya yayından kaldırılmış olabilir.</p>
-          <a href="haberler.html" class="btn-teklif mt-4">Haberlere Dön</a>
+          <p>Aradığınız haber bulunamadı.</p>
+          <a href="haberler.html" class="btn-teklif mt-4">Geri Dön</a>
         </div>
       `;
       return;
@@ -286,13 +194,10 @@
     if (metaEl) metaEl.textContent = `${formatDateTR(item._dateObj)} • ${item.category ?? ''}`;
 
     const bodyHtml = item._safeContent || `<p class="lead">${item._safeExcerpt}</p>`;
-
     detailEl.innerHTML = `
       <div class="content-card mt-0 border-0 shadow-none px-0">
         <div class="news-detail-cover"></div>
-        <div class="mt-5 fs-5" style="color: var(--text);">
-          ${bodyHtml}
-        </div>
+        <div class="mt-5 fs-5" style="color: var(--text);">${bodyHtml}</div>
       </div>
     `;
 

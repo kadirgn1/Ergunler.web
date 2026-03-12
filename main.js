@@ -1,9 +1,12 @@
 (() => {
   'use strict';
 
-  const boot = () => {
+  const boot = async () => {
     const ui = window.ErgunlerUI;
     if (!ui) return;
+
+    // 1. ÖNEMLİ DÜZELTME: Sayfa kilitlenmesin diye preloader hemen kapatılır.
+    ui.initPreloader();
 
     ui.initNavbarScroll();
     ui.initCounters();
@@ -19,7 +22,8 @@
     }
 
     if (window.ErgunlerNews) {
-      const news = window.ErgunlerNews.loadNews();
+      // 2. ÖNEMLİ DÜZELTME: MySQL veritabanından haberlerin gelmesi beklenir (await eklendi)
+      const news = await window.ErgunlerNews.loadNews();
 
       if (ui.qs('#homeNewsFeatured') || ui.qs('#homeNewsSide')) {
         window.ErgunlerNews.renderHomeNews(news);

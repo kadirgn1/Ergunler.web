@@ -14,7 +14,7 @@
       const url = new URL(currentScript.src, window.location.href);
       basePath = url.href.substring(0, url.href.lastIndexOf('/') + 1);
     }
-  } catch (e) {
+  } catch {
     basePath = '';
   }
 
@@ -38,10 +38,8 @@
       const script = document.createElement('script');
       script.src = fullSrc;
       script.defer = true;
-
-      script.onload = () => resolve();
+      script.onload = resolve;
       script.onerror = () => reject(new Error(`${fullSrc} yüklenemedi.`));
-
       document.head.appendChild(script);
     });
 
